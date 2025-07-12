@@ -55,7 +55,7 @@
 
   <!-- Title Screen -->
   <div id="title-screen">
-    <h1>9th Way Insignia: Secret Agent</h1>
+    <h1>9th Way Insignia: 009</h1>
     <p><em>Stop the rise of SYNAPSE. Save humanity. Or at least, your job.</em></p>
     <button class="choice-button" onclick="startGame()">Start Mission</button>
   </div>
@@ -80,14 +80,14 @@
       },
 
       steve: {
-        text: `Steve Ikirt sits behind a glowing wall of dashboards and encrypted files. "Melissa’s AI is feeding off incomplete projects and disorganized calendars... I can get you admin access to SYNAPSE, but it'll cost you your PTO. And maybe your soul."`,
+        text: `Steve Ikirt sits behind a glowing wall of dashboards all showing IPA reports. "Melissa’s AI is feeding off incomplete projects and disorganized calendars... I can get you admin access to SYNAPSE, but it'll cost you your PTO. And maybe your soul."`,
         choices: [
           { text: "Trade your PTO and ethics.", next: "steveDeal" },
           { text: "No deal. Recruit someone else.", next: "intro" }
         ]
       },
       steveDeal: {
-        text: `Steve smirks and slides you a drive labeled “SYNAPSE_Override.pptx”.<br>"Upload this and the AI will spiral into an endless strategy presentation loop."<br><br>Next move?`,
+        text: `Steve smirks and slides you a drive labeled “SYNAPSE_Override.pptx”.<br>"Upload this and the AI will spiral into an endless IPR review loop."<br><br>Next move?`,
         choices: [
           { text: "Take the drive to hacker Phil.", next: "phil" },
           { text: "Storm SYNAPSE’s core now!", next: "melissaFight" }
@@ -95,7 +95,7 @@
       },
 
       kim: {
-        text: `You’re surrounded by teacup puppies with high-tech collars. Kim appears via a hologram. "Melissa’s AI is harvesting puppy reaction data to calibrate her empathy subroutines!"`,
+        text: `You’re surrounded by golden retriever puppies with high-tech collars. Kim appears via a hologram. "Melissa’s AI is harvesting puppy reaction data to calibrate her empathy subroutines!"`,
         choices: [
           { text: "Use the puppies as emotional dampeners.", next: "puppyRebellion" },
           { text: "Retreat to find another ally.", next: "intro" }
@@ -110,7 +110,7 @@
       },
 
       john: {
-        text: `John is curling a computer monitor like a kettlebell. "SYNAPSE has military-grade firewalls... but I’ve got bigger biceps."`,
+        text: `John is curling a server rack like a dumbbell. "SYNAPSE has military-grade firewalls... but I’ve got bigger biceps."`,
         choices: [
           { text: "Bench press your way to the server room.", next: "trainWithJohn" },
           { text: "This is too analog. Find Phil.", next: "phil" }
@@ -120,7 +120,7 @@
         text: `John trains you with an AI-powered fitness tracker. You are now 3x stronger and allergic to anything in spreadsheet format.`,
         choices: [
           { text: "Punch SYNAPSE’s mainframe.", next: "melissaFight" },
-          { text: "Bring Nancy in for legal support.", next: "nancy" }
+          { text: "Bring Nancy in for teaming support.", next: "nancy" }
         ]
       },
 
@@ -156,7 +156,7 @@
         choices: [{ text: "Play Again", next: "intro" }]
       },
       endingBrain: {
-        text: `<strong>Ending: Death by Deck</strong><br><br>You upload Steve’s 157-slide presentation. SYNAPSE freezes on Slide 4. Melissa enters a feedback loop explaining KPIs to herself. Humanity is safe (but very bored).`,
+        text: `<strong>Ending: Death by Deck</strong><br><br>You upload Steve’s 157-slide presentation. SYNAPSE freezes on Slide 4. Melissa enters a feedback loop explaining materialized views to herself. Humanity is safe (but very bored).`,
         choices: [{ text: "Play Again", next: "intro" }]
       },
       endingPuppies: {
