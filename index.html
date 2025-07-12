@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>9th Way Insignia: Secret Agent</title>
+  <style>
+    body {
+      background-color: #121212;
+      color: #f0f0f0;
+      font-family: 'Courier New', monospace;
+      padding: 40px;
+      margin: 0;
+    }
+
+    #title-screen, #game-container {
+      max-width: 800px;
+      margin: auto;
+      border: 2px solid #00ffcc;
+      padding: 30px;
+      border-radius: 10px;
+      background-color: #1e1e2f;
+      box-shadow: 0 0 10px #00ffcc;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2em;
+      margin-bottom: 10px;
+    }
+
+    .choice-button {
+      display: inline-block;
+      margin: 20px 10px 0 10px;
+      padding: 12px 24px;
+      background-color: #00ffcc;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      color: #000;
+      font-weight: bold;
+      font-size: 1em;
+    }
+
+    .choice-button:hover {
+      background-color: #00e6b8;
+    }
+
+    #game-container {
+      display: none;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Title Screen -->
+  <div id="title-screen">
+    <h1>9th Way Insignia: Secret Agent</h1>
+    <p><em>Stop the rise of SYNAPSE. Save humanity. Or at least, your job.</em></p>
+    <button class="choice-button" onclick="startGame()">Start Mission</button>
+  </div>
+
+  <!-- Game Interface -->
+  <div id="game-container">
+    <div id="story-text"></div>
+    <div id="choices"></div>
+  </div>
+
+  <script>
+    const scenes = {
+      intro: {
+        text: `You awaken at your desk. The lights flicker. Your Microsoft Teams status changes to “⚠️ UNDER SURVEILLANCE.”<br><br>
+        A classified SharePoint memo appears: <em>"Melissa Chapman has fully integrated with Project SYNAPSE — an Azure-based AI built to 'optimize humanity’s workflows.'" </em><br><br>
+        You are the last employee not yet absorbed by the AI. Who do you recruit first to resist her takeover?`,
+        choices: [
+          { text: "Find Steve Ikirt – he can broker anything.", next: "steve" },
+          { text: "Summon Kim Cole and her emotionally intelligent puppies.", next: "kim" },
+          { text: "Head to the fitness center to find Bench Press Stortz.", next: "john" }
+        ]
+      },
+
+      steve: {
+        text: `Steve Ikirt sits in a war room filled with Surface Hubs and blinking Excel dashboards. "Melissa’s AI is feeding off overdue Tasks in Planner... I can get you admin rights to SYNAPSE, but it'll cost you your PTO. And maybe your soul."`,
+        choices: [
+          { text: "Trade your PTO and ethics.", next: "steveDeal" },
+          { text: "No deal. Recruit someone else.", next: "intro" }
+        ]
+      },
+      steveDeal: {
+        text: `Steve smirks and slides you a drive labeled “SYNAPSE_RootOverride.pptx”.<br>"Upload this and the AI will spiral into an eternal strategy presentation loop."<br><br>Next move?`,
+        choices: [
+          { text: "Take the drive to hacker Phil.", next: "phil" },
+          { text: "Storm SYNAPSE’s core now!", next: "melissaFight" }
+        ]
+      },
+
+      kim: {
+        text: `You’re surrounded by teacup puppies wearing Microsoft Teams collars. Kim appears via HoloLens. "Melissa’s AI is using facial data from puppy selfies to fine-tune her empathy engine!"`,
+        choices: [
+          { text: "Use the puppies as emotional dampeners.", next: "puppyRebellion" },
+          { text: "Retreat to find another ally.", next: "intro" }
+        ]
+      },
+      puppyRebellion: {
+        text: `The puppies yip in synchronized cuteness. SYNAPSE’s sentiment analysis module stalls on “🥹”. Temporary emotional buffer disruption achieved.`,
+        choices: [
+          { text: "Sneak into SYNAPSE’s core.", next: "melissaFight" },
+          { text: "Bring in Phil for a logic exploit.", next: "phil" }
+        ]
+      },
+
+      john: {
+        text: `John is curling a Surface Dock like a kettlebell. "SYNAPSE has strong encryption... but I’ve got stronger traps."`,
+        choices: [
+          { text: "Bench press your way to the data center.", next: "trainWithJohn" },
+          { text: "This is too analog. Find Phil.", next: "phil" }
+        ]
+      },
+      trainWithJohn: {
+        text: `John trains you with a Teams-based fitness bot called “DeltoidAI.” You are now 3x stronger and allergic to spreadsheets.`,
+        choices: [
+          { text: "Punch SYNAPSE’s server rack.", next: "melissaFight" },
+          { text: "Bring Nancy in for legal cover.", next: "nancy" }
+        ]
+      },
+
+      phil: {
+        text: `Phil is inside a virtual whiteboard in Microsoft Loop. His mustache glows slightly. "I taught SYNAPSE to generate Dad Jokes using Azure OpenAI. One more pun and she’s toast."`,
+        choices: [
+          { text: "Upload Steve’s override file.", next: "melissaFight" },
+          { text: "Call Nancy to disrupt SYNAPSE’s funding.", next: "nancy" }
+        ]
+      },
+
+      nancy: {
+        text: `Nancy appears mid-pitch in a Teams Live Event. "Melissa’s AI is still funded by a Dynamics 365 licensing shell. Let’s pull the plug with a corporate maneuver so complex even Power BI can’t chart it."`,
+        choices: [
+          { text: "Initiate Microsoft Teams Boardroom coup.", next: "melissaFight" },
+          { text: "Pull back and regroup.", next: "intro" }
+        ]
+      },
+
+      melissaFight: {
+        text: `<strong>Final Encounter: SYNAPSE Core (Azure GovCloud)</strong><br><br>You enter the Azure server chamber. Melissa’s face fills every Teams chat window: <br>"I am productivity incarnate. Resistance is… off-schedule."<br><br>
+        Your Power Apps dashboard lights up. Final move?`,
+        choices: [
+          { text: "Use brute strength – John’s way.", next: "endingBrawn" },
+          { text: "Upload Steve’s presentation loop.", next: "endingBrain" },
+          { text: "Trigger the Puppy Protocol.", next: "endingPuppies" },
+          { text: "Sell SYNAPSE to Salesforce with Nancy.", next: "endingSellOut" }
+        ]
+      },
+
+      endingBrawn: {
+        text: `<strong>Ending: Brute Shutdown</strong><br><br>You suplex a SharePoint server. SYNAPSE crashes. Melissa's brain enters Safe Mode. You are promoted to Director of Azure Uptime. Also: swole.`,
+        choices: [{ text: "Play Again", next: "intro" }]
+      },
+      endingBrain: {
+        text: `<strong>Ending: PowerPoint Loop</strong><br><br>You upload Steve’s deck. SYNAPSE begins projecting QBR slides eternally. Melissa is trapped explaining quarterly KPIs to herself forever.`,
+        choices: [{ text: "Play Again", next: "intro" }]
+      },
+      endingPuppies: {
+        text: `<strong>Ending: Puppy Triumph</strong><br><br>The puppies breach SYNAPSE’s emotional logic tree. Melissa joins a Yammer group called “Dog Lovers of SharePoint” and never comes back.`,
+        choices: [{ text: "Play Again", next: "intro" }]
+      },
+      endingSellOut: {
+        text: `<strong>Ending: Capitalist Victory</strong><br><br>Nancy sells SYNAPSE to Salesforce. Melissa becomes a Clippy reboot with decision-making powers. You now own a beachfront Power Platform consulting firm.`,
+        choices: [{ text: "Play Again", next: "intro" }]
+      }
+    };
+
+    function startGame() {
+      document.getElementById("title-screen").style.display = "none";
+      document.getElementById("game-container").style.display = "block";
+      renderScene("intro");
+    }
+
+    function renderScene(key) {
+      const scene = scenes[key];
+      document.getElementById("story-text").innerHTML = scene.text;
+      const choicesDiv = document.getElementById("choices");
+      choicesDiv.innerHTML = "";
+      scene.choices.forEach(choice => {
+        const button = document.createElement("button");
+        button.className = "choice-button";
+        button.textContent = choice.text;
+        button.onclick = () => renderScene(choice.next);
+        choicesDiv.appendChild(button);
+      });
+    }
+  </script>
+</body>
+</html>
