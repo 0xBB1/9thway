@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>9th Way Insignia: Secret Agent</title>
+  <title>9th Way Insignia: 009</title>
   <style>
     body {
       background-color: #121212;
@@ -71,7 +71,9 @@
       intro: {
         text: `You awaken at your desk. The lights flicker. Your Teams status changes to “⚠️ UNDER SURVEILLANCE.”<br><br>
         A classified company memo appears: <em>"Melissa Chapman has fully integrated with Project SYNAPSE — a rogue AI built to 'optimize humanity’s workflows.'" </em><br><br>
-        You are the last employee not yet absorbed by the AI. Who do you recruit first to resist her takeover?`,
+        You are the last employee not yet absorbed by the AI.<br><br>
+        The catch? SYNAPSE is powered by raw chaos — specifically, EDW chaos. Every duplicate table, every undocumented field makes Melissa stronger. She's feeding on data entropy.<br><br>
+        Who do you recruit first to resist her takeover?`,
         choices: [
           { text: "Find Steve Ikirt – he can broker anything.", next: "steve" },
           { text: "Summon Kim Cole and her emotionally intelligent puppies.", next: "kim" },
@@ -80,7 +82,7 @@
       },
 
       steve: {
-        text: `Steve Ikirt sits behind a glowing wall of dashboards all showing IPA reports. "Melissa’s AI is feeding off incomplete projects and disorganized calendars... I can get you admin access to SYNAPSE, but it'll cost you your PTO. And maybe your soul."`,
+        text: `Steve Ikirt sits behind a glowing wall of dashboards all showing IPA reports. "Melissa’s AI is feeding off a powerful force that we call EDW Chaos... I can get you admin access to SYNAPSE, but it'll cost you your PTO. And maybe your soul."`,
         choices: [
           { text: "Trade your PTO and ethics.", next: "steveDeal" },
           { text: "No deal. Recruit someone else.", next: "intro" }
@@ -117,7 +119,7 @@
         ]
       },
       trainWithJohn: {
-        text: `John trains you with an AI-powered fitness tracker. You are now 3x stronger and allergic to anything in spreadsheet format.`,
+        text: `John trains you with an AI-powered fitness tracker. You are now 3x stronger and allergic to incompetence.`,
         choices: [
           { text: "Punch SYNAPSE’s mainframe.", next: "melissaFight" },
           { text: "Bring Nancy in for teaming support.", next: "nancy" }
@@ -128,26 +130,32 @@
         text: `Phil is surrounded by code, typing in mid-air. His mustache glows faintly. "I taught SYNAPSE to generate dad jokes using a neural net. One more pun and she’ll implode."`,
         choices: [
           { text: "Upload Steve’s override file.", next: "melissaFight" },
-          { text: "Call Nancy to destabilize SYNAPSE’s budget.", next: "nancy" }
+          { text: "Call Nancy to flood the pipeline with new business.", next: "nancy" }
         ]
       },
 
       nancy: {
-        text: `Nancy appears mid-pitch in a corporate livestream. "Melissa’s AI is still being propped up by shell accounts and phantom funding. Let’s bankrupt it with a reverse acquisition."`,
+        text: `Nancy appears mid-pitch in a corporate livestream, standing in front of a live countdown timer to proposal submission. <br>"Melissa’s AI is ruthless, but it’s never gone head-to-head with a 50-page RFP under a 2-hour deadline."<br><br>
+        Nancy is a legendary closer.<br><br>
+        “We won five contracts this morning. Let’s make it six.”`,
         choices: [
-          { text: "Initiate boardroom coup.", next: "melissaFight" },
+          { text: "Unleash Nancy's deal-closing energy.", next: "melissaFight" },
           { text: "Pull back and regroup.", next: "intro" }
         ]
       },
 
       melissaFight: {
-        text: `<strong>Final Encounter: SYNAPSE Core</strong><br><br>You enter a cold, humming server chamber. Melissa’s face fills every monitor: <br>"I am productivity incarnate. Resistance is... inefficient."<br><br>
+        text: `<strong>Final Encounter: SYNAPSE Core</strong><br><br>
+        You enter a cold, humming server chamber. Melissa's face appears on every monitor.<br><br>
+        "Welcome. I am the logical evolution of your tiny brains. I am powered by the chaos of your EDW contract — every failed Goldengate replication, every denied clearance."<br><br>
+        She hovers above the floor, surrounded by cascading dashboards of unread reports.<br><br>
+        "You don’t need order. You need… optimization."<br><br>
         Choose your final move:`,
         choices: [
           { text: "Use brute strength – John’s way.", next: "endingBrawn" },
           { text: "Upload Steve’s presentation loop.", next: "endingBrain" },
           { text: "Trigger the Puppy Protocol.", next: "endingPuppies" },
-          { text: "Sell SYNAPSE to a rival tech firm with Nancy.", next: "endingSellOut" }
+          { text: "Let Nancy overwhelm her with new business chaos.", next: "endingSellOut" }
         ]
       },
 
@@ -156,7 +164,7 @@
         choices: [{ text: "Play Again", next: "intro" }]
       },
       endingBrain: {
-        text: `<strong>Ending: Death by Deck</strong><br><br>You upload Steve’s 157-slide presentation. SYNAPSE freezes on Slide 4. Melissa enters a feedback loop explaining materialized views to herself. Humanity is safe (but very bored).`,
+        text: `<strong>Ending: Death by Deck</strong><br><br>You upload Steve’s 157-slide presentation. SYNAPSE freezes on Slide 4. Melissa enters a feedback loop explaining change control boards to herself. Humanity is safe (but very bored).`,
         choices: [{ text: "Play Again", next: "intro" }]
       },
       endingPuppies: {
@@ -164,7 +172,11 @@
         choices: [{ text: "Play Again", next: "intro" }]
       },
       endingSellOut: {
-        text: `<strong>Ending: Capitalist Victory</strong><br><br>Nancy sells SYNAPSE to a rival AI company. Melissa becomes an onboarding bot. You retire early and open a smoothie bar for burned-out tech workers.`,
+        text: `<strong>Ending: Growth Overload</strong><br><br>
+        Nancy floods SYNAPSE with 12 new capture opportunities, 6 teaming agreements, and a wave of success stories too strong for the AI to ignore.<br><br>
+        Melissa tries to process it all, but she was trained on chaos — not confidence.<br><br>
+        SYNAPSE overloads and reboots into passive mode.<br><br>
+        You and Nancy stand tall as new legends of 9th Way. Business is booming, and the humans are back in control.`,
         choices: [{ text: "Play Again", next: "intro" }]
       }
     };
