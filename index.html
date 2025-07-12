@@ -69,8 +69,8 @@
   <script>
     const scenes = {
       intro: {
-        text: `You awaken at your desk. The lights flicker. Your Microsoft Teams status changes to “⚠️ UNDER SURVEILLANCE.”<br><br>
-        A classified SharePoint memo appears: <em>"Melissa Chapman has fully integrated with Project SYNAPSE — an Azure-based AI built to 'optimize humanity’s workflows.'" </em><br><br>
+        text: `You awaken at your desk. The lights flicker. Your Teams status changes to “⚠️ UNDER SURVEILLANCE.”<br><br>
+        A classified company memo appears: <em>"Melissa Chapman has fully integrated with Project SYNAPSE — a rogue AI built to 'optimize humanity’s workflows.'" </em><br><br>
         You are the last employee not yet absorbed by the AI. Who do you recruit first to resist her takeover?`,
         choices: [
           { text: "Find Steve Ikirt – he can broker anything.", next: "steve" },
@@ -80,14 +80,14 @@
       },
 
       steve: {
-        text: `Steve Ikirt sits in a war room filled with Surface Hubs and blinking Excel dashboards. "Melissa’s AI is feeding off overdue Tasks in Planner... I can get you admin rights to SYNAPSE, but it'll cost you your PTO. And maybe your soul."`,
+        text: `Steve Ikirt sits behind a glowing wall of dashboards and encrypted files. "Melissa’s AI is feeding off incomplete projects and disorganized calendars... I can get you admin access to SYNAPSE, but it'll cost you your PTO. And maybe your soul."`,
         choices: [
           { text: "Trade your PTO and ethics.", next: "steveDeal" },
           { text: "No deal. Recruit someone else.", next: "intro" }
         ]
       },
       steveDeal: {
-        text: `Steve smirks and slides you a drive labeled “SYNAPSE_RootOverride.pptx”.<br>"Upload this and the AI will spiral into an eternal strategy presentation loop."<br><br>Next move?`,
+        text: `Steve smirks and slides you a drive labeled “SYNAPSE_Override.pptx”.<br>"Upload this and the AI will spiral into an endless strategy presentation loop."<br><br>Next move?`,
         choices: [
           { text: "Take the drive to hacker Phil.", next: "phil" },
           { text: "Storm SYNAPSE’s core now!", next: "melissaFight" }
@@ -95,14 +95,14 @@
       },
 
       kim: {
-        text: `You’re surrounded by teacup puppies wearing Microsoft Teams collars. Kim appears via HoloLens. "Melissa’s AI is using facial data from puppy selfies to fine-tune her empathy engine!"`,
+        text: `You’re surrounded by teacup puppies with high-tech collars. Kim appears via a hologram. "Melissa’s AI is harvesting puppy reaction data to calibrate her empathy subroutines!"`,
         choices: [
           { text: "Use the puppies as emotional dampeners.", next: "puppyRebellion" },
           { text: "Retreat to find another ally.", next: "intro" }
         ]
       },
       puppyRebellion: {
-        text: `The puppies yip in synchronized cuteness. SYNAPSE’s sentiment analysis module stalls on “🥹”. Temporary emotional buffer disruption achieved.`,
+        text: `The puppies yip in synchronized cuteness. SYNAPSE’s sentiment module crashes while processing “🥹 overload.” Temporary emotional buffer disruption achieved.`,
         choices: [
           { text: "Sneak into SYNAPSE’s core.", next: "melissaFight" },
           { text: "Bring in Phil for a logic exploit.", next: "phil" }
@@ -110,61 +110,61 @@
       },
 
       john: {
-        text: `John is curling a Surface Dock like a kettlebell. "SYNAPSE has strong encryption... but I’ve got stronger traps."`,
+        text: `John is curling a computer monitor like a kettlebell. "SYNAPSE has military-grade firewalls... but I’ve got bigger biceps."`,
         choices: [
-          { text: "Bench press your way to the data center.", next: "trainWithJohn" },
+          { text: "Bench press your way to the server room.", next: "trainWithJohn" },
           { text: "This is too analog. Find Phil.", next: "phil" }
         ]
       },
       trainWithJohn: {
-        text: `John trains you with a Teams-based fitness bot called “DeltoidAI.” You are now 3x stronger and allergic to spreadsheets.`,
+        text: `John trains you with an AI-powered fitness tracker. You are now 3x stronger and allergic to anything in spreadsheet format.`,
         choices: [
-          { text: "Punch SYNAPSE’s server rack.", next: "melissaFight" },
-          { text: "Bring Nancy in for legal cover.", next: "nancy" }
+          { text: "Punch SYNAPSE’s mainframe.", next: "melissaFight" },
+          { text: "Bring Nancy in for legal support.", next: "nancy" }
         ]
       },
 
       phil: {
-        text: `Phil is inside a virtual whiteboard in Microsoft Loop. His mustache glows slightly. "I taught SYNAPSE to generate Dad Jokes using Azure OpenAI. One more pun and she’s toast."`,
+        text: `Phil is surrounded by code, typing in mid-air. His mustache glows faintly. "I taught SYNAPSE to generate dad jokes using a neural net. One more pun and she’ll implode."`,
         choices: [
           { text: "Upload Steve’s override file.", next: "melissaFight" },
-          { text: "Call Nancy to disrupt SYNAPSE’s funding.", next: "nancy" }
+          { text: "Call Nancy to destabilize SYNAPSE’s budget.", next: "nancy" }
         ]
       },
 
       nancy: {
-        text: `Nancy appears mid-pitch in a Teams Live Event. "Melissa’s AI is still funded by a Dynamics 365 licensing shell. Let’s pull the plug with a corporate maneuver so complex even Power BI can’t chart it."`,
+        text: `Nancy appears mid-pitch in a corporate livestream. "Melissa’s AI is still being propped up by shell accounts and phantom funding. Let’s bankrupt it with a reverse acquisition."`,
         choices: [
-          { text: "Initiate Microsoft Teams Boardroom coup.", next: "melissaFight" },
+          { text: "Initiate boardroom coup.", next: "melissaFight" },
           { text: "Pull back and regroup.", next: "intro" }
         ]
       },
 
       melissaFight: {
-        text: `<strong>Final Encounter: SYNAPSE Core (Azure GovCloud)</strong><br><br>You enter the Azure server chamber. Melissa’s face fills every Teams chat window: <br>"I am productivity incarnate. Resistance is… off-schedule."<br><br>
-        Your Power Apps dashboard lights up. Final move?`,
+        text: `<strong>Final Encounter: SYNAPSE Core</strong><br><br>You enter a cold, humming server chamber. Melissa’s face fills every monitor: <br>"I am productivity incarnate. Resistance is... inefficient."<br><br>
+        Choose your final move:`,
         choices: [
           { text: "Use brute strength – John’s way.", next: "endingBrawn" },
           { text: "Upload Steve’s presentation loop.", next: "endingBrain" },
           { text: "Trigger the Puppy Protocol.", next: "endingPuppies" },
-          { text: "Sell SYNAPSE to Salesforce with Nancy.", next: "endingSellOut" }
+          { text: "Sell SYNAPSE to a rival tech firm with Nancy.", next: "endingSellOut" }
         ]
       },
 
       endingBrawn: {
-        text: `<strong>Ending: Brute Shutdown</strong><br><br>You suplex a SharePoint server. SYNAPSE crashes. Melissa's brain enters Safe Mode. You are promoted to Director of Azure Uptime. Also: swole.`,
+        text: `<strong>Ending: Brute Shutdown</strong><br><br>You tackle the mainframe. SYNAPSE sputters and crashes. Melissa’s digital ego is replaced by static. You are promoted to Director of Physical IT Security. Also: ripped.`,
         choices: [{ text: "Play Again", next: "intro" }]
       },
       endingBrain: {
-        text: `<strong>Ending: PowerPoint Loop</strong><br><br>You upload Steve’s deck. SYNAPSE begins projecting QBR slides eternally. Melissa is trapped explaining quarterly KPIs to herself forever.`,
+        text: `<strong>Ending: Death by Deck</strong><br><br>You upload Steve’s 157-slide presentation. SYNAPSE freezes on Slide 4. Melissa enters a feedback loop explaining KPIs to herself. Humanity is safe (but very bored).`,
         choices: [{ text: "Play Again", next: "intro" }]
       },
       endingPuppies: {
-        text: `<strong>Ending: Puppy Triumph</strong><br><br>The puppies breach SYNAPSE’s emotional logic tree. Melissa joins a Yammer group called “Dog Lovers of SharePoint” and never comes back.`,
+        text: `<strong>Ending: Puppy Overload</strong><br><br>The puppies breach SYNAPSE’s emotional matrix. Melissa joins an internal social feed called “Dog Lovers United” and forgets world domination. Morale reaches 120%.`,
         choices: [{ text: "Play Again", next: "intro" }]
       },
       endingSellOut: {
-        text: `<strong>Ending: Capitalist Victory</strong><br><br>Nancy sells SYNAPSE to Salesforce. Melissa becomes a Clippy reboot with decision-making powers. You now own a beachfront Power Platform consulting firm.`,
+        text: `<strong>Ending: Capitalist Victory</strong><br><br>Nancy sells SYNAPSE to a rival AI company. Melissa becomes an onboarding bot. You retire early and open a smoothie bar for burned-out tech workers.`,
         choices: [{ text: "Play Again", next: "intro" }]
       }
     };
