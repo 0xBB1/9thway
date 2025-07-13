@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>9th Way Insignia: SYNAPSE</title>
+  <meta charset="UTF-8">
+  <title>9th Way Insignia: Secret Agent</title>
   <style>
     body {
       background-color: #121212;
@@ -50,25 +50,43 @@
       text-align: left;
     }
 
-    #character-img {
+    #character-image {
+      display: block;
       max-width: 200px;
-      margin-bottom: 20px;
-      display: none;
+      margin: 20px auto;
+      border: 2px solid #00ffcc;
+      border-radius: 8px;
+    }
+
+    #mute-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #00ffe0;
+      color: #000;
+      font-weight: bold;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
 
+  <audio id="bg-music" src="game_assets/Enigma.mp3" loop></audio>
+  <button id="mute-toggle">🔊 Mute</button>
+
   <!-- Title Screen -->
   <div id="title-screen">
-    <h1>9th Way Insignia: Secret Agent</h1>
+    <h1>9th Way Insignia: 009</h1>
     <p><em>Stop the rise of SYNAPSE. Save humanity. Or at least, your job.</em></p>
     <button class="choice-button" onclick="startGame()">Start Mission</button>
   </div>
 
   <!-- Game Interface -->
   <div id="game-container">
-    <img id="character-img" src="" alt="Character Image" />
+    <img id="character-image" src="" alt="Character" style="display:none">
     <div id="story-text"></div>
     <div id="choices"></div>
   </div>
@@ -77,7 +95,7 @@
     const scenes = {
       intro: {
         text: `You awaken at your desk. The lights flicker. Your Teams status changes to “⚠️ UNDER SURVEILLANCE.”<br><br>
-        A classified company memo appears: <em>"Melissa Chapman has fully integrated with Project SYNAPSE — a rogue AI built to 'optimize humanity’s workflows.'" </em><br><br>
+        A classified company memo appears: <em>"Melissa Chapman has fully integrated with Project SYNAPSE — a rogue AI built to 'optimize humanity’s workflows.'"</em><br><br>
         You are the last employee not yet absorbed by the AI. Who do you recruit first to resist her takeover?`,
         choices: [
           { text: "Find Steve Ikirt – he can broker anything.", next: "steve" },
@@ -85,83 +103,73 @@
           { text: "Head to the fitness center to find Bench Press Stortz.", next: "john" }
         ]
       },
-
       steve: {
-        img: "steve.png",
         text: `Steve Ikirt sits behind a glowing wall of dashboards all showing IPA reports. "Melissa’s AI is feeding off incomplete projects and disorganized calendars... I can get you admin access to SYNAPSE, but it'll cost you your PTO. And maybe your soul."`,
+        img: "steve.png",
         choices: [
           { text: "Trade your PTO and ethics.", next: "steveDeal" },
           { text: "No deal. Recruit someone else.", next: "intro" }
         ]
       },
-
       steveDeal: {
-        img: "steve.png",
         text: `Steve smirks and slides you a drive labeled “SYNAPSE_Override.pptx”.<br>"Upload this and the AI will spiral into an endless IPR review loop."<br><br>Next move?`,
+        img: "steve.png",
         choices: [
           { text: "Take the drive to hacker Phil.", next: "phil" },
           { text: "Storm SYNAPSE’s core now!", next: "melissaFight" }
         ]
       },
-
       kim: {
-        img: "kim.png",
         text: `You’re surrounded by golden retriever puppies with high-tech collars. Kim appears via a hologram. "Melissa’s AI is harvesting puppy reaction data to calibrate her empathy subroutines!"`,
+        img: "kim.png",
         choices: [
           { text: "Use the puppies as emotional dampeners.", next: "puppyRebellion" },
           { text: "Retreat to find another ally.", next: "intro" }
         ]
       },
-
       puppyRebellion: {
-        img: "kim.png",
         text: `The puppies yip in synchronized cuteness. SYNAPSE’s sentiment module crashes while processing “🥹 overload.” Temporary emotional buffer disruption achieved.`,
+        img: "kim.png",
         choices: [
           { text: "Sneak into SYNAPSE’s core.", next: "melissaFight" },
           { text: "Bring in Phil for a logic exploit.", next: "phil" }
         ]
       },
-
       john: {
-        img: "john.png",
         text: `John is curling a server rack like a dumbbell. "SYNAPSE has military-grade firewalls... but I’ve got bigger biceps."`,
+        img: "john.png",
         choices: [
           { text: "Bench press your way to the server room.", next: "trainWithJohn" },
           { text: "This is too analog. Find Phil.", next: "phil" }
         ]
       },
-
       trainWithJohn: {
-        img: "john.png",
         text: `John trains you with an AI-powered fitness tracker. You are now 3x stronger and allergic to anything in spreadsheet format.`,
+        img: "john.png",
         choices: [
           { text: "Punch SYNAPSE’s mainframe.", next: "melissaFight" },
           { text: "Bring Nancy in for teaming support.", next: "nancy" }
         ]
       },
-
       phil: {
-        img: "phil.png",
         text: `Phil is surrounded by code, typing in mid-air. His mustache glows faintly. "I taught SYNAPSE to generate dad jokes using a neural net. One more pun and she’ll implode."`,
+        img: "phil.png",
         choices: [
           { text: "Upload Steve’s override file.", next: "melissaFight" },
           { text: "Call Nancy to destabilize SYNAPSE’s budget.", next: "nancy" }
         ]
       },
-
       nancy: {
-        img: "nancy.png",
         text: `Nancy appears mid-pitch in a corporate livestream. "Melissa’s AI is still being propped up by shell accounts and phantom funding. Let’s bankrupt it with a reverse acquisition."`,
+        img: "nancy.png",
         choices: [
           { text: "Initiate boardroom coup.", next: "melissaFight" },
           { text: "Pull back and regroup.", next: "intro" }
         ]
       },
-
       melissaFight: {
+        text: `<strong>Final Encounter: SYNAPSE Core</strong><br><br>You enter a cold, humming server chamber. Melissa’s face fills every monitor: <br>"I am productivity incarnate. Resistance is... inefficient."<br><br>Choose your final move:`,
         img: "melissa.png",
-        text: `<strong>Final Encounter: SYNAPSE Core</strong><br><br>You enter a cold, humming server chamber. Melissa’s face fills every monitor: <br>"I am productivity incarnate. Resistance is... inefficient."<br><br>
-        Choose your final move:`,
         choices: [
           { text: "Use brute strength – John’s way.", next: "endingBrawn" },
           { text: "Upload Steve’s presentation loop.", next: "endingBrain" },
@@ -169,7 +177,6 @@
           { text: "Sell SYNAPSE to a rival tech firm with Nancy.", next: "endingSellOut" }
         ]
       },
-
       endingBrawn: {
         text: `<strong>Ending: Brute Shutdown</strong><br><br>You tackle the mainframe. SYNAPSE sputters and crashes. Melissa’s digital ego is replaced by static. You are promoted to Director of Physical IT Security. Also: ripped.`,
         choices: [{ text: "Play Again", next: "intro" }]
@@ -198,12 +205,12 @@
       const scene = scenes[key];
       document.getElementById("story-text").innerHTML = scene.text;
 
-      const img = document.getElementById("character-img");
+      const characterImage = document.getElementById("character-image");
       if (scene.img) {
-        img.src = `game_assets/${scene.img}`;
-        img.style.display = "block";
+        characterImage.src = `game_assets/${scene.img}`;
+        characterImage.style.display = "block";
       } else {
-        img.style.display = "none";
+        characterImage.style.display = "none";
       }
 
       const choicesDiv = document.getElementById("choices");
@@ -216,6 +223,21 @@
         choicesDiv.appendChild(button);
       });
     }
+
+    // Autoplay music after first user interaction
+    const bgMusic = document.getElementById("bg-music");
+    const muteButton = document.getElementById("mute-toggle");
+
+    document.addEventListener("click", () => {
+      if (bgMusic.paused) {
+        bgMusic.play().catch(() => {});
+      }
+    }, { once: true });
+
+    muteButton.addEventListener("click", () => {
+      bgMusic.muted = !bgMusic.muted;
+      muteButton.textContent = bgMusic.muted ? "🔇 Unmute" : "🔊 Mute";
+    });
   </script>
 </body>
 </html>
