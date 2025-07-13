@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>9th Way Insignia: SYNAPSE</title>
+  <title>9th Way Insignia: Agent 009</title>
   <style>
     body {
       background-color: #121212;
@@ -79,7 +79,7 @@
 
   <!-- Title Screen -->
   <div id="title-screen">
-    <h1>9th Way Insignia: 009</h1>
+    <h1>9th Way Insignia: Agent 009</h1>
     <p><em>Stop the rise of SYNAPSE. Save humanity. Or at least, your job.</em></p>
     <button class="choice-button" onclick="startGame()">Start Mission</button>
   </div>
@@ -92,22 +92,24 @@
   </div>
 
   <script>
+    let recruited = new Set();
+
     const scenes = {
       intro: {
         text: `You awaken at your desk. The lights flicker. Your Teams status changes to “⚠️ UNDER SURVEILLANCE.”<br><br>
         A classified company memo appears: <em>"Melissa Chapman has fully integrated with Project SYNAPSE — a rogue AI built to 'optimize humanity’s workflows.'"</em><br><br>
         You are the last employee not yet absorbed by the AI. Who do you recruit first to resist her takeover?`,
         choices: [
-          { text: "Find Steve Ikirt – he can broker anything.", next: "steve" },
+          { text: "Find Steve Ikirt – he can fix anything.", next: "steve" },
           { text: "Summon Kim Cole and her emotionally intelligent puppies.", next: "kim" },
-          { text: "Head to the fitness center to find Bench Press Stortz.", next: "john" }
+          { text: "Head to the fitness center to find John 'Bench Press' Stortz.", next: "john" }
         ]
       },
       steve: {
-        text: `Steve Ikirt sits behind a glowing wall of dashboards all showing IPA reports. "Melissa’s AI is feeding off incomplete projects and disorganized calendars... I can get you admin access to SYNAPSE, but I'll need a favor in return. I want you to pretend to be me in future 9th Day Newsletter videos."`,
+        text: `Steve Ikirt sits behind a glowing wall of dashboards all showing IPA reports. "Melissa’s AI is feeding off incomplete projects and disorganized calendars... I can get you admin access to SYNAPSE, but I need a favor in return. I want you to pretend to be me in future 9th Day newsletter videos."`,
         img: "steve.png",
         choices: [
-          { text: "Agree to be Steve's doppleganger.", next: "steveDeal" },
+          { text: "Agree to fill in for Steve.", next: () => { recruited.add('steve'); return "steveDeal"; } },
           { text: "No deal. Recruit someone else.", next: "intro" }
         ]
       },
@@ -123,7 +125,7 @@
         text: `You’re surrounded by golden retriever puppies with high-tech collars. Kim appears via a hologram. "Melissa’s AI is harvesting puppy reaction data to calibrate her empathy subroutines!"`,
         img: "kim.png",
         choices: [
-          { text: "Use the puppies as emotional dampeners.", next: "puppyRebellion" },
+          { text: "Use the puppies as emotional dampeners.", next: () => { recruited.add('kim'); return "puppyRebellion"; } },
           { text: "Retreat to find another ally.", next: "intro" }
         ]
       },
@@ -139,12 +141,12 @@
         text: `John is curling a server rack like a dumbbell. "SYNAPSE has military-grade firewalls... but I’ve got bigger biceps."`,
         img: "john.png",
         choices: [
-          { text: "Bench press your way to the server room.", next: "trainWithJohn" },
+          { text: "Bench press your way to the server room.", next: () => { recruited.add('john'); return "trainWithJohn"; } },
           { text: "This is too analog. Find Phil.", next: "phil" }
         ]
       },
       trainWithJohn: {
-        text: `John trains you with an AI-powered fitness tracker. You are now 3x stronger and allergic to anything in spreadsheet format.`,
+        text: `John trains you with an AI-powered fitness tracker. You are now 3x stronger and allergic to whining.`,
         img: "john.png",
         choices: [
           { text: "Punch SYNAPSE’s mainframe.", next: "melissaFight" },
@@ -155,27 +157,23 @@
         text: `Phil is surrounded by code, typing in mid-air. His mustache glows faintly. "I taught SYNAPSE to generate dad jokes using a neural net. One more pun and she’ll implode."`,
         img: "phil.png",
         choices: [
-          { text: "Upload Steve’s override file.", next: "melissaFight" },
-          { text: "Call Nancy to destabilize SYNAPSE’s budget.", next: "nancy" }
+          { text: "Upload Steve’s override file.", next: () => { recruited.add('phil'); return "melissaFight"; } },
+          { text: "Call Nancy to destabilize SYNAPSE.", next: "nancy" }
         ]
       },
       nancy: {
-        text: `Nancy appears mid-pitch in a corporate livestream. "Melissa’s AI is still being propped up by shell accounts and phantom funding. Let’s bankrupt it with a reverse acquisition."`,
-        img: "nancy.png",
-        choices: [
-          { text: "Initiate boardroom coup.", next: "melissaFight" },
-          { text: "Pull back and regroup.", next: "intro" }
-        ]
-      },
+  text: `Nancy appears mid-pitch on a surprise Teams call. “Melissa thinks she can run the company without new business? Watch this.”<br><br>
+  She fires up Salesforce, collapses three rival contracts into one megadeal, and spins up a pitch so compelling SYNAPSE crashes trying to forecast revenue.`,
+  img: "nancy.png",
+  choices: [
+    { text: \"Initiate the SYNAPSE shutdown deal.\", next: () => { recruited.add('nancy'); return "melissaFight"; } },
+    { text: "Pull back and regroup.", next: "intro" }
+  ]
+},
       melissaFight: {
         text: `<strong>Final Encounter: SYNAPSE Core</strong><br><br>You enter a cold, humming server chamber. Melissa’s face fills every monitor: <br>"I am productivity incarnate. Resistance is... inefficient."<br><br>Choose your final move:`,
         img: "melissa.png",
-        choices: [
-          { text: "Use brute strength – John’s way.", next: "endingBrawn" },
-          { text: "Upload Steve’s presentation loop.", next: "endingBrain" },
-          { text: "Trigger the Puppy Protocol.", next: "endingPuppies" },
-          { text: "Sell SYNAPSE to a rival tech firm with Nancy.", next: "endingSellOut" }
-        ]
+        choices: [] // Dynamically filled
       },
       endingBrawn: {
         text: `<strong>Ending: Brute Shutdown</strong><br><br>You tackle the mainframe. SYNAPSE sputters and crashes. Melissa’s digital ego is replaced by static. You are promoted to Director of Physical IT Security. Also: ripped.`,
@@ -196,6 +194,7 @@
     };
 
     function startGame() {
+      recruited.clear();
       document.getElementById("title-screen").style.display = "none";
       document.getElementById("game-container").style.display = "block";
       renderScene("intro");
@@ -215,16 +214,29 @@
 
       const choicesDiv = document.getElementById("choices");
       choicesDiv.innerHTML = "";
-      scene.choices.forEach(choice => {
+
+      let choices = typeof scene.choices === 'function' ? scene.choices() : scene.choices;
+
+      if (key === "melissaFight") {
+        choices = [];
+        if (recruited.has('john')) choices.push({ text: "Use brute strength – John’s way.", next: "endingBrawn" });
+        if (recruited.has('steve')) choices.push({ text: "Upload Steve’s presentation loop.", next: "endingBrain" });
+        if (recruited.has('kim')) choices.push({ text: "Trigger the Puppy Protocol.", next: "endingPuppies" });
+        if (recruited.has('nancy')) choices.push({ text: "Sell SYNAPSE to a rival tech firm with Nancy.", next: "endingSellOut" });
+      }
+
+      choices.forEach(choice => {
         const button = document.createElement("button");
         button.className = "choice-button";
         button.textContent = choice.text;
-        button.onclick = () => renderScene(choice.next);
+        button.onclick = () => {
+          const nextScene = typeof choice.next === 'function' ? choice.next() : choice.next;
+          renderScene(nextScene);
+        };
         choicesDiv.appendChild(button);
       });
     }
 
-    // Autoplay music after first user interaction
     const bgMusic = document.getElementById("bg-music");
     const muteButton = document.getElementById("mute-toggle");
 
