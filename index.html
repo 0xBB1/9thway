@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>9th Way Insignia: Agent 009</title>
+  <title>9th Way Insignia: Secret Agent</title>
   <style>
     body {
       background-color: #121212;
@@ -51,11 +51,9 @@
     }
 
     #character-image {
-      display: block;
       max-width: 200px;
+      display: block;
       margin: 20px auto;
-      border: 2px solid #00ffcc;
-      border-radius: 8px;
     }
 
     #mute-toggle {
@@ -74,127 +72,152 @@
 </head>
 <body>
 
-  <audio id="bg-music" src="game_assets/Enigma.mp3" loop></audio>
-  <button id="mute-toggle">🔊 Mute</button>
-
   <!-- Title Screen -->
   <div id="title-screen">
-    <h1>9th Way Insignia: Agent 009</h1>
+    <h1>9th Way Insignia: Secret Agent</h1>
     <p><em>Stop the rise of SYNAPSE. Save humanity. Or at least, your job.</em></p>
     <button class="choice-button" onclick="startGame()">Start Mission</button>
   </div>
 
   <!-- Game Interface -->
   <div id="game-container">
-    <img id="character-image" src="" alt="Character" style="display:none">
+    <img id="character-image" src="" alt="Character" style="display:none;">
     <div id="story-text"></div>
     <div id="choices"></div>
   </div>
 
-  <script>
-    let recruited = new Set();
+  <audio id="bg-music" src="game_assets/Enigma.mp3" loop autoplay muted></audio>
+  <button id="mute-toggle">🔊 Mute</button>
 
+  <script>
     const scenes = {
       intro: {
         text: `You awaken at your desk. The lights flicker. Your Teams status changes to “⚠️ UNDER SURVEILLANCE.”<br><br>
         A classified company memo appears: <em>"Melissa Chapman has fully integrated with Project SYNAPSE — a rogue AI built to 'optimize humanity’s workflows.'"</em><br><br>
         You are the last employee not yet absorbed by the AI. Who do you recruit first to resist her takeover?`,
+        image: '',
         choices: [
-          { text: "Find Steve Ikirt – he can fix anything.", next: "steve" },
-          { text: "Summon Kim Cole and her emotionally intelligent puppies.", next: "kim" },
-          { text: "Head to the fitness center to find John 'Bench Press' Stortz.", next: "john" }
+          { text: "Find Steve Ikirt – he can broker anything.", next: () => { recruited.add('steve'); return "steve"; } },
+          { text: "Summon Kim Cole and her emotionally intelligent puppies.", next: () => { recruited.add('kim'); return "kim"; } },
+          { text: "Head to the fitness center to find Bench Press Stortz.", next: () => { recruited.add('john'); return "john"; } }
         ]
       },
+
       steve: {
-        text: `Steve Ikirt sits behind a glowing wall of dashboards all showing IPA reports. "Melissa’s AI is feeding off incomplete projects and disorganized calendars... I can get you admin access to SYNAPSE, but I need a favor in return. I want you to pretend to be me in future 9th Day newsletter videos."`,
-        img: "steve.png",
+        text: `Steve Ikirt sits behind a glowing wall of dashboards all showing IPA reports. "Melissa’s AI is feeding off incomplete projects and disorganized calendars... I can get you admin access to SYNAPSE, but it'll cost you your PTO. And maybe your soul."`,
+        image: "game_assets/steve.png",
         choices: [
-          { text: "Agree to fill in for Steve.", next: () => { recruited.add('steve'); return "steveDeal"; } },
+          { text: "Trade your PTO and ethics.", next: () => { recruited.add('steve'); return "steveDeal"; } },
           { text: "No deal. Recruit someone else.", next: "intro" }
         ]
       },
       steveDeal: {
         text: `Steve smirks and slides you a drive labeled “SYNAPSE_Override.pptx”.<br>"Upload this and the AI will spiral into an endless IPR review loop."<br><br>Next move?`,
-        img: "steve.png",
+        image: "game_assets/steve.png",
         choices: [
-          { text: "Take the drive to hacker Phil.", next: "phil" },
+          { text: "Take the drive to hacker Phil.", next: () => { recruited.add('phil'); return "phil"; } },
           { text: "Storm SYNAPSE’s core now!", next: "melissaFight" }
         ]
       },
+
       kim: {
         text: `You’re surrounded by golden retriever puppies with high-tech collars. Kim appears via a hologram. "Melissa’s AI is harvesting puppy reaction data to calibrate her empathy subroutines!"`,
-        img: "kim.png",
+        image: "game_assets/kim.png",
         choices: [
-          { text: "Use the puppies as emotional dampeners.", next: () => { recruited.add('kim'); return "puppyRebellion"; } },
+          { text: "Use the puppies as emotional dampeners.", next: "puppyRebellion" },
           { text: "Retreat to find another ally.", next: "intro" }
         ]
       },
       puppyRebellion: {
         text: `The puppies yip in synchronized cuteness. SYNAPSE’s sentiment module crashes while processing “🥹 overload.” Temporary emotional buffer disruption achieved.`,
-        img: "kim.png",
+        image: "game_assets/kim.png",
         choices: [
           { text: "Sneak into SYNAPSE’s core.", next: "melissaFight" },
-          { text: "Bring in Phil for a logic exploit.", next: "phil" }
+          { text: "Bring in Phil for a logic exploit.", next: () => { recruited.add('phil'); return "phil"; } }
         ]
       },
+
       john: {
         text: `John is curling a server rack like a dumbbell. "SYNAPSE has military-grade firewalls... but I’ve got bigger biceps."`,
-        img: "john.png",
+        image: "game_assets/john.png",
         choices: [
-          { text: "Bench press your way to the server room.", next: () => { recruited.add('john'); return "trainWithJohn"; } },
-          { text: "This is too analog. Find Phil.", next: "phil" }
+          { text: "Bench press your way to the server room.", next: "trainWithJohn" },
+          { text: "This is too analog. Find Phil.", next: () => { recruited.add('phil'); return "phil"; } }
         ]
       },
       trainWithJohn: {
-        text: `John trains you with an AI-powered fitness tracker. You are now 3x stronger and allergic to whining.`,
-        img: "john.png",
+        text: `John trains you with an AI-powered fitness tracker. You are now 3x stronger and allergic to anything in spreadsheet format.`,
+        image: "game_assets/john.png",
         choices: [
           { text: "Punch SYNAPSE’s mainframe.", next: "melissaFight" },
-          { text: "Bring Nancy in for teaming support.", next: "nancy" }
+          { text: "Bring Nancy in for teaming support.", next: () => { recruited.add('nancy'); return "nancy"; } }
         ]
       },
+
       phil: {
         text: `Phil is surrounded by code, typing in mid-air. His mustache glows faintly. "I taught SYNAPSE to generate dad jokes using a neural net. One more pun and she’ll implode."`,
-        img: "phil.png",
+        image: "game_assets/phil.png",
         choices: [
-          { text: "Upload Steve’s override file.", next: () => { recruited.add('phil'); return "melissaFight"; } },
-          { text: "Call Nancy to destabilize SYNAPSE.", next: "nancy" }
+          { text: "Upload Steve’s override file.", next: "melissaFight" },
+          { text: "Call Nancy to destabilize SYNAPSE’s budget.", next: () => { recruited.add('nancy'); return "nancy"; } }
         ]
       },
+
       nancy: {
-  text: `Nancy appears mid-pitch on a surprise Teams call. “Melissa thinks she can run the company without new business? Watch this.”<br><br>
-  She fires up Salesforce, collapses three rival contracts into one megadeal, and spins up a pitch so compelling SYNAPSE crashes trying to forecast revenue.`,
-  img: "nancy.png",
-  choices: [
-    { text: \"Initiate the SYNAPSE shutdown deal.\", next: () => { recruited.add('nancy'); return "melissaFight"; } },
-    { text: "Pull back and regroup.", next: "intro" }
-  ]
-},
+        text: `Nancy appears mid-pitch in a corporate livestream. "Melissa’s AI is still being propped up by shell accounts and phantom funding. Let’s bankrupt it with a reverse acquisition."`,
+        image: "game_assets/nancy.png",
+        choices: [
+          { text: "Initiate the SYNAPSE shutdown deal.", next: () => { recruited.add('nancy'); return "melissaFight"; } },
+          { text: "Pull back and regroup.", next: "intro" }
+        ]
+      },
+
       melissaFight: {
         text: `<strong>Final Encounter: SYNAPSE Core</strong><br><br>You enter a cold, humming server chamber. Melissa’s face fills every monitor: <br>"I am productivity incarnate. Resistance is... inefficient."<br><br>Choose your final move:`,
-        img: "melissa.png",
-        choices: [] // Dynamically filled
+        image: "game_assets/melissa.png",
+        choices: [] // dynamically generated based on recruited
       },
+
       endingBrawn: {
         text: `<strong>Ending: Brute Shutdown</strong><br><br>You tackle the mainframe. SYNAPSE sputters and crashes. Melissa’s digital ego is replaced by static. You are promoted to Director of Physical IT Security. Also: ripped.`,
+        image: "game_assets/john.png",
         choices: [{ text: "Play Again", next: "intro" }]
       },
       endingBrain: {
         text: `<strong>Ending: Death by Deck</strong><br><br>You upload Steve’s 157-slide presentation. SYNAPSE freezes on Slide 4. Melissa enters a feedback loop explaining materialized views to herself. Humanity is safe (but very bored).`,
+        image: "game_assets/steve.png",
         choices: [{ text: "Play Again", next: "intro" }]
       },
       endingPuppies: {
         text: `<strong>Ending: Puppy Overload</strong><br><br>The puppies breach SYNAPSE’s emotional matrix. Melissa joins an internal social feed called “Dog Lovers United” and forgets world domination. Morale reaches 120%.`,
+        image: "game_assets/kim.png",
         choices: [{ text: "Play Again", next: "intro" }]
       },
       endingSellOut: {
         text: `<strong>Ending: Capitalist Victory</strong><br><br>Nancy sells SYNAPSE to a rival AI company. Melissa becomes an onboarding bot. You retire early and open a smoothie bar for burned-out tech workers.`,
+        image: "game_assets/nancy.png",
         choices: [{ text: "Play Again", next: "intro" }]
       }
     };
 
+    const recruited = new Set();
+
+    const bgMusic = document.getElementById("bg-music");
+    const muteButton = document.getElementById("mute-toggle");
+
+    muteButton.addEventListener("click", () => {
+      bgMusic.muted = !bgMusic.muted;
+      muteButton.textContent = bgMusic.muted ? "🔇 Unmute" : "🔊 Mute";
+    });
+
+    document.addEventListener("click", () => {
+      console.log("User clicked. Attempting to play music...");
+      if (bgMusic.paused) {
+        bgMusic.play().catch(() => {});
+      }
+    }, { once: true });
+
     function startGame() {
-      recruited.clear();
       document.getElementById("title-screen").style.display = "none";
       document.getElementById("game-container").style.display = "block";
       renderScene("intro");
@@ -202,27 +225,25 @@
 
     function renderScene(key) {
       const scene = scenes[key];
-      document.getElementById("story-text").innerHTML = scene.text;
-
-      const characterImage = document.getElementById("character-image");
-      if (scene.img) {
-        characterImage.src = `game_assets/${scene.img}`;
-        characterImage.style.display = "block";
+      const image = document.getElementById("character-image");
+      if (scene.image) {
+        image.src = scene.image;
+        image.style.display = "block";
       } else {
-        characterImage.style.display = "none";
+        image.style.display = "none";
       }
 
+      document.getElementById("story-text").innerHTML = scene.text;
       const choicesDiv = document.getElementById("choices");
       choicesDiv.innerHTML = "";
 
-      let choices = typeof scene.choices === 'function' ? scene.choices() : scene.choices;
-
+      let choices = scene.choices;
       if (key === "melissaFight") {
         choices = [];
-        if (recruited.has('john')) choices.push({ text: "Use brute strength – John’s way.", next: "endingBrawn" });
-        if (recruited.has('steve')) choices.push({ text: "Upload Steve’s presentation loop.", next: "endingBrain" });
-        if (recruited.has('kim')) choices.push({ text: "Trigger the Puppy Protocol.", next: "endingPuppies" });
-        if (recruited.has('nancy')) choices.push({ text: "Sell SYNAPSE to a rival tech firm with Nancy.", next: "endingSellOut" });
+        if (recruited.has("john")) choices.push({ text: "Use brute strength – John’s way.", next: "endingBrawn" });
+        if (recruited.has("steve")) choices.push({ text: "Upload Steve’s presentation loop.", next: "endingBrain" });
+        if (recruited.has("kim")) choices.push({ text: "Trigger the Puppy Protocol.", next: "endingPuppies" });
+        if (recruited.has("nancy")) choices.push({ text: "Initiate the SYNAPSE shutdown deal.", next: "endingSellOut" });
       }
 
       choices.forEach(choice => {
@@ -236,20 +257,6 @@
         choicesDiv.appendChild(button);
       });
     }
-
-    const bgMusic = document.getElementById("bg-music");
-    const muteButton = document.getElementById("mute-toggle");
-
-    document.addEventListener("click", () => {
-      if (bgMusic.paused) {
-        bgMusic.play().catch(() => {});
-      }
-    }, { once: true });
-
-    muteButton.addEventListener("click", () => {
-      bgMusic.muted = !bgMusic.muted;
-      muteButton.textContent = bgMusic.muted ? "🔇 Unmute" : "🔊 Mute";
-    });
   </script>
 </body>
 </html>
