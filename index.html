@@ -123,12 +123,12 @@
       intro: {
         text: `You awaken at your desk. The lights flicker. Your Teams status changes to “⚠️ UNDER SURVEILLANCE.”<br><br>
         A classified company memo appears: <em>"Melissa Chapman has fully integrated with Project SYNAPSE — a rogue AI built to 'optimize humanity’s workflows.'"</em><br><br>
-        You are the last employee not yet absorbed by the AI. Who do you recruit first to resist her takeover?`,
+        You are the last employee not yet absorbed by the AI, but the other executives have escaped her control. Who do you recruit first to resist her takeover?`,
         image: null,
         choices: [
           { text: "Find Steve Ikirt – he can broker anything.", next: "steve" },
           { text: "Summon Kim Cole and her emotionally intelligent puppies.", next: "kim" },
-          { text: "Head to the fitness center to find Bench Press Stortz.", next: "john" }
+          { text: "Head to the weight room to find John Stortz.", next: "john" }
         ]
       },
       steve: {
@@ -141,7 +141,7 @@
         ]
       },
       steveDeal: {
-        text: `The override deck is in your hands. 157 slides of dense jargon and just enough chaos to stall SYNAPSE’s logic tree.`,
+        text: `The override deck is in your hands. 157 slides of IPR statistics and just enough chaos to stall SYNAPSE’s logic tree.`,
         image: characterImages.steve,
         onEnter: () => recruited.add("steve"),
         choices: [
@@ -193,16 +193,14 @@
         ]
       },
       nancy: {
-        text: `Nancy appears mid-pitch. “Melissa’s still being propped up by phantom accounts. Let’s drown her in a strategic shutdown deal.”`,
-        image: characterImages.nancy,
-        onEnter: () => recruited.add("nancy"),
-        choices: [
-          { text: "Initiate the SYNAPSE shutdown deal.", next: "melissaFight" },
-          { text: "Retreat and regroup.", next: "intro" }
-        ]
-      },
+  text: `You find Nancy pacing in front of a whiteboard covered in acronyms. "SYNAPSE is stabilizing itself using a never-ending stream of RFPs and vapor contracts. But I've closed deals during a government shutdown—I can break her backend pipeline."<br><br>"If we flood her inputs with simultaneous bid protests and last-minute teaming agreements, she'll implode trying to optimize the chaos."`,
+  choices: [
+    { text: "Initiate the SYNAPSE shutdown deal.", next: "melissaFight" },
+    { text: "Pull back and regroup.", next: "intro" }
+  ]
+},
       melissaFight: {
-        text: `You enter the server chamber. Melissa’s voice echoes: “I am productivity incarnate. Resistance is inefficient.”`,
+        text: `You enter the server chamber. Melissa’s voice echoes: “I am productivity incarnate. Resistance is...inefficient.”`,
         image: characterImages.melissa,
         choices: [] // Set dynamically
       },
