@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>9th Way Insignia: 009</title>
+  <meta charset="UTF-8" />
+  <title>9th Way Insignia: SYNAPSE</title>
   <style>
     body {
       background-color: #121212;
@@ -49,19 +49,26 @@
       display: none;
       text-align: left;
     }
+
+    #character-img {
+      max-width: 200px;
+      margin-bottom: 20px;
+      display: none;
+    }
   </style>
 </head>
 <body>
 
   <!-- Title Screen -->
   <div id="title-screen">
-    <h1>9th Way Insignia: 009</h1>
+    <h1>9th Way Insignia: Secret Agent</h1>
     <p><em>Stop the rise of SYNAPSE. Save humanity. Or at least, your job.</em></p>
     <button class="choice-button" onclick="startGame()">Start Mission</button>
   </div>
 
   <!-- Game Interface -->
   <div id="game-container">
+    <img id="character-img" src="" alt="Character Image" />
     <div id="story-text"></div>
     <div id="choices"></div>
   </div>
@@ -71,9 +78,7 @@
       intro: {
         text: `You awaken at your desk. The lights flicker. Your Teams status changes to “⚠️ UNDER SURVEILLANCE.”<br><br>
         A classified company memo appears: <em>"Melissa Chapman has fully integrated with Project SYNAPSE — a rogue AI built to 'optimize humanity’s workflows.'" </em><br><br>
-        You are the last employee not yet absorbed by the AI.<br><br>
-        The catch? SYNAPSE is powered by raw chaos — specifically, EDW chaos. Every request for remote work, every Goldengate replication failure, every corrupt table makes Melissa stronger. She's feeding on high maintenance employees and data entropy.<br><br>
-        Who do you recruit first to resist her takeover?`,
+        You are the last employee not yet absorbed by the AI. Who do you recruit first to resist her takeover?`,
         choices: [
           { text: "Find Steve Ikirt – he can broker anything.", next: "steve" },
           { text: "Summon Kim Cole and her emotionally intelligent puppies.", next: "kim" },
@@ -82,13 +87,16 @@
       },
 
       steve: {
-        text: `Steve Ikirt sits behind a glowing wall of dashboards all showing IPA reports. "Melissa’s AI is feeding off a powerful force that we call EDW Chaos... I can get you admin access to SYNAPSE, but it'll cost you your PTO. And maybe your soul."`,
+        img: "steve.png",
+        text: `Steve Ikirt sits behind a glowing wall of dashboards all showing IPA reports. "Melissa’s AI is feeding off incomplete projects and disorganized calendars... I can get you admin access to SYNAPSE, but it'll cost you your PTO. And maybe your soul."`,
         choices: [
           { text: "Trade your PTO and ethics.", next: "steveDeal" },
           { text: "No deal. Recruit someone else.", next: "intro" }
         ]
       },
+
       steveDeal: {
+        img: "steve.png",
         text: `Steve smirks and slides you a drive labeled “SYNAPSE_Override.pptx”.<br>"Upload this and the AI will spiral into an endless IPR review loop."<br><br>Next move?`,
         choices: [
           { text: "Take the drive to hacker Phil.", next: "phil" },
@@ -97,13 +105,16 @@
       },
 
       kim: {
+        img: "kim.png",
         text: `You’re surrounded by golden retriever puppies with high-tech collars. Kim appears via a hologram. "Melissa’s AI is harvesting puppy reaction data to calibrate her empathy subroutines!"`,
         choices: [
           { text: "Use the puppies as emotional dampeners.", next: "puppyRebellion" },
           { text: "Retreat to find another ally.", next: "intro" }
         ]
       },
+
       puppyRebellion: {
+        img: "kim.png",
         text: `The puppies yip in synchronized cuteness. SYNAPSE’s sentiment module crashes while processing “🥹 overload.” Temporary emotional buffer disruption achieved.`,
         choices: [
           { text: "Sneak into SYNAPSE’s core.", next: "melissaFight" },
@@ -112,14 +123,17 @@
       },
 
       john: {
+        img: "john.png",
         text: `John is curling a server rack like a dumbbell. "SYNAPSE has military-grade firewalls... but I’ve got bigger biceps."`,
         choices: [
           { text: "Bench press your way to the server room.", next: "trainWithJohn" },
           { text: "This is too analog. Find Phil.", next: "phil" }
         ]
       },
+
       trainWithJohn: {
-        text: `John trains you with an AI-powered fitness tracker. You are now 3x stronger and allergic to incompetence.`,
+        img: "john.png",
+        text: `John trains you with an AI-powered fitness tracker. You are now 3x stronger and allergic to anything in spreadsheet format.`,
         choices: [
           { text: "Punch SYNAPSE’s mainframe.", next: "melissaFight" },
           { text: "Bring Nancy in for teaming support.", next: "nancy" }
@@ -127,35 +141,32 @@
       },
 
       phil: {
+        img: "phil.png",
         text: `Phil is surrounded by code, typing in mid-air. His mustache glows faintly. "I taught SYNAPSE to generate dad jokes using a neural net. One more pun and she’ll implode."`,
         choices: [
           { text: "Upload Steve’s override file.", next: "melissaFight" },
-          { text: "Call Nancy to flood the pipeline with new business.", next: "nancy" }
+          { text: "Call Nancy to destabilize SYNAPSE’s budget.", next: "nancy" }
         ]
       },
 
       nancy: {
-        text: `Nancy appears mid-pitch in a corporate livestream, standing in front of a live countdown timer to proposal submission. <br>"Melissa’s AI is ruthless, but it’s never gone head-to-head with a 50-page RFP under a 2-hour deadline."<br><br>
-        Nancy is a legendary closer.<br><br>
-        “We won five contracts this morning. Let’s make it six.”`,
+        img: "nancy.png",
+        text: `Nancy appears mid-pitch in a corporate livestream. "Melissa’s AI is still being propped up by shell accounts and phantom funding. Let’s bankrupt it with a reverse acquisition."`,
         choices: [
-          { text: "Unleash Nancy's deal-closing energy.", next: "melissaFight" },
+          { text: "Initiate boardroom coup.", next: "melissaFight" },
           { text: "Pull back and regroup.", next: "intro" }
         ]
       },
 
       melissaFight: {
-        text: `<strong>Final Encounter: SYNAPSE Core</strong><br><br>
-        You enter a cold, humming server chamber. Melissa's face appears on every monitor.<br><br>
-        "Welcome. I am the logical evolution of your tiny brains. I am powered by the chaos of your EDW contract — every failed Goldengate replication, every denied clearance."<br><br>
-        She hovers above the floor, surrounded by cascading dashboards of unread reports.<br><br>
-        "You don’t need order. You need… optimization."<br><br>
+        img: "melissa.png",
+        text: `<strong>Final Encounter: SYNAPSE Core</strong><br><br>You enter a cold, humming server chamber. Melissa’s face fills every monitor: <br>"I am productivity incarnate. Resistance is... inefficient."<br><br>
         Choose your final move:`,
         choices: [
           { text: "Use brute strength – John’s way.", next: "endingBrawn" },
           { text: "Upload Steve’s presentation loop.", next: "endingBrain" },
           { text: "Trigger the Puppy Protocol.", next: "endingPuppies" },
-          { text: "Let Nancy overwhelm her with new business chaos.", next: "endingSellOut" }
+          { text: "Sell SYNAPSE to a rival tech firm with Nancy.", next: "endingSellOut" }
         ]
       },
 
@@ -164,7 +175,7 @@
         choices: [{ text: "Play Again", next: "intro" }]
       },
       endingBrain: {
-        text: `<strong>Ending: Death by Deck</strong><br><br>You upload Steve’s 157-slide presentation. SYNAPSE freezes on Slide 4. Melissa enters a feedback loop explaining change control boards to herself. Humanity is safe (but very bored).`,
+        text: `<strong>Ending: Death by Deck</strong><br><br>You upload Steve’s 157-slide presentation. SYNAPSE freezes on Slide 4. Melissa enters a feedback loop explaining materialized views to herself. Humanity is safe (but very bored).`,
         choices: [{ text: "Play Again", next: "intro" }]
       },
       endingPuppies: {
@@ -172,11 +183,7 @@
         choices: [{ text: "Play Again", next: "intro" }]
       },
       endingSellOut: {
-        text: `<strong>Ending: Growth Overload</strong><br><br>
-        Nancy floods SYNAPSE with 12 new capture opportunities, 6 teaming agreements, and a wave of success stories too strong for the AI to ignore.<br><br>
-        Melissa tries to process it all, but she was trained on chaos — not confidence.<br><br>
-        SYNAPSE overloads and reboots into passive mode.<br><br>
-        You and Nancy stand tall as new legends of 9th Way. Business is booming, and the humans are back in control.`,
+        text: `<strong>Ending: Capitalist Victory</strong><br><br>Nancy sells SYNAPSE to a rival AI company. Melissa becomes an onboarding bot. You retire early and open a smoothie bar for burned-out tech workers.`,
         choices: [{ text: "Play Again", next: "intro" }]
       }
     };
@@ -190,6 +197,15 @@
     function renderScene(key) {
       const scene = scenes[key];
       document.getElementById("story-text").innerHTML = scene.text;
+
+      const img = document.getElementById("character-img");
+      if (scene.img) {
+        img.src = `game_assets/${scene.img}`;
+        img.style.display = "block";
+      } else {
+        img.style.display = "none";
+      }
+
       const choicesDiv = document.getElementById("choices");
       choicesDiv.innerHTML = "";
       scene.choices.forEach(choice => {
