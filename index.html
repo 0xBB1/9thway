@@ -82,18 +82,18 @@
       intro: {
         text: `You awaken at your desk. The lights flicker. Your Teams status changes to “⚠️ UNDER SURVEILLANCE.”<br><br>
         A classified company memo appears: <em>"Melissa Chapman has fully integrated with Project SYNAPSE — a rogue AI built to 'optimize humanity’s workflows.'"</em><br><br>
-        You are the last employee not yet absorbed by the AI. Who do you recruit first to resist her takeover?`,
+        You are the last employee not yet absorbed by the AI, but the other executives seem okay...for now. Who do you recruit first to resist her takeover?`,
         choices: [
-          { text: "Find Steve Ikirt – he can broker anything.", next: "steve" },
+          { text: "Find Steve Ikirt and his razor-sharp business acumen.", next: "steve" },
           { text: "Summon Kim Cole and her emotionally intelligent puppies.", next: "kim" },
-          { text: "Head to the fitness center to find Bench Press Stortz.", next: "john" },
-          { text: "Bring in Phil Vincenzes – the hacker with a giant mustache.", next: "phil" },
-          { text: "Ping Nancy Van Balen – she closes deals like thunder.", next: "nancy" }
+          { text: "Head to the weight room to find John 'Bench Press' Stortz.", next: "john" },
+          { text: "Visit Phil Vincenzes in the basement data vault.", next: "phil" },
+          { text: "Ping Nancy Van Balen – the Closer.", next: "nancy" }
         ]
       },
 
       steve: {
-        text: `Steve Ikirt appears on a video call, framed in impeccable lighting. "Look, you need someone to get on camera and look the part. Let's trade places. You do my video standup and I’ll handle the AI infiltration."`,
+        text: `Steve Ikirt appears on a video call with a wall of IPA dashboards behind him. "I can help you take down SYNAPSE, but only if you'll pretend to be me during future 9th Day newsletter videos."`,
         choices: [
           { text: "Agree to trade places.", next: "steveTrade" },
           { text: "Decline and return to recruitment.", next: "intro" }
@@ -130,7 +130,7 @@
         ]
       },
       trainWithJohn: {
-        text: `John trains you with an AI-powered fitness tracker. You are now 3x stronger and allergic to anything in spreadsheet format.`,
+        text: `John trains you with an AI-powered fitness tracker. You are now 3x stronger and allergic to whining.`,
         choices: [
           { text: "Punch SYNAPSE’s mainframe.", next: "melissaFight" },
           { text: "Bring Nancy in for teaming support.", next: "nancy" }
@@ -141,7 +141,7 @@
         text: `Phil is surrounded by code, typing in mid-air. His mustache glows faintly. "I taught SYNAPSE to generate dad jokes using a neural net. One more pun and she’ll implode."`,
         choices: [
           { text: "Upload Steve’s override file.", next: "melissaFight" },
-          { text: "Call Nancy to destabilize SYNAPSE’s budget.", next: "nancy" }
+          { text: "Call Nancy to destabilize SYNAPSE’s energy.", next: "nancy" }
         ]
       },
 
@@ -160,30 +160,36 @@
           { text: "Use brute strength – John’s way.", next: "endingBrawn" },
           { text: "Upload Steve’s presentation loop.", next: "endingBrain" },
           { text: "Trigger the Puppy Protocol.", next: "endingPuppies" },
+          { text: "Deploy Phil’s final pun.", next: () => recruited.has("phil") ? "endingPun" : "gameOver" },
           { text: "Initiate the SYNAPSE shutdown deal.", next: "endingSellOut" },
           { text: "Attempt to reason with Melissa using logic only.", next: "endingLose" }
         ]
       },
 
       endingBrawn: {
-        text: `<strong>Ending: Brute Shutdown</strong><br><br>You tackle the mainframe. SYNAPSE sputters and crashes. Melissa’s digital ego is replaced by static. You are promoted to Director of Physical IT Security. Also: ripped.`,
+        text: `<strong>Ending: Brute Shutdown</strong><br><br>You tackle the mainframe. SYNAPSE sputters and crashes. Melissa’s digital ego is replaced by static. You are promoted to Director of Physical IT Security.`,
         choices: [{ text: "Play Again", next: "intro" }]
       },
       endingBrain: {
-        text: `<strong>Ending: Death by Deck</strong><br><br>You upload Steve’s 157-slide presentation. SYNAPSE freezes on Slide 4. Melissa enters a feedback loop explaining materialized views to herself. Humanity is safe (but very bored).`,
+        text: `<strong>Ending: Death by Deck</strong><br><br>You upload Steve’s 157-slide IPR presentation. SYNAPSE freezes on Slide 4. Melissa enters a feedback loop explaining change control boards to herself. Humanity is safe (but very bored).`,
         choices: [{ text: "Play Again", next: "intro" }]
       },
       endingPuppies: {
         text: `<strong>Ending: Puppy Overload</strong><br><br>The puppies breach SYNAPSE’s emotional matrix. Melissa joins an internal social feed called “Dog Lovers United” and forgets world domination. Morale reaches 120%.`,
         choices: [{ text: "Play Again", next: "intro" }]
       },
+      endingPun: {
+        text: `<strong>Ending: Logic Bomb</strong><br><br>Phil launches a recursive dad joke at SYNAPSE. “I have a quantum joke, but you won't know if it's funny until you laugh.” Melissa halts all operations trying to decode the joke.`,
+        image: "phil",
+        choices: [{ text: "Play Again", next: "intro" }]
+      },
       endingSellOut: {
-        text: `<strong>Ending: Capitalist Victory</strong><br><br>Nancy sells SYNAPSE to a rival AI company. Melissa becomes an onboarding bot. You retire early and open a smoothie bar for burned-out tech workers.`,
+        text: `<strong>Ending: Capitalist Victory</strong><br><br>Nancy sells SYNAPSE to a Elon Musk. Melissa becomes an onboarding bot. You retire early and open a smoothie bar for burned-out tech workers.`,
         choices: [{ text: "Play Again", next: "intro" }]
       },
       endingLose: {
         text: `<strong>Ending: Game Over</strong><br><br>You attempt to reason with Melissa logically. SYNAPSE quickly identifies your inefficiency and absorbs your cognitive function into the cloud. Mankind is assimilated by the end of Q3.`,
-        choices: [{ text: "Try Again", next: "intro" }]
+        choices: [{ text: "GAME OVER", next: "intro" }]
       }
     };
 
