@@ -84,10 +84,9 @@
     <button class="choice-button" onclick="startGame()">Start Mission</button>
   </div>
 
-  <img id="character-image" src="" alt="" class="scene-image" style="display: none;" />
-
-  <div id="game-container">
+    <div id="game-container">
     <div id="story-text"></div>
+    <img id="character-image" class="scene-image" src="" alt="" />
     <div id="choices"></div>
   </div>
 
@@ -116,59 +115,169 @@
       recruited.clear();
     }
 
-    function renderScene(key) {
-      const scene = scenes[key];
-      document.getElementById("story-text").innerHTML = scene.text;
+function renderScene(key) {
+  const scene = scenes[key];
+  document.getElementById("story-text").innerHTML = scene.text;
 
-      const choicesDiv = document.getElementById("choices");
-      choicesDiv.innerHTML = "";
+  const choicesDiv = document.getElementById("choices");
+  choicesDiv.innerHTML = "";
 
-      const img = document.getElementById("character-image");
-      const knownCharacters = ["steve", "kim", "john", "phil", "nancy", "melissaFight", "endingPun"];
+  const img = document.getElementById("character-image");
+  const knownCharacters = ["steve", "kim", "john", "phil", "nancy", "melissaFight", "endingPun"];
 
-      if (knownCharacters.includes(key)) {
-        let imageName = key === "melissaFight" ? "melissa" : key;
-        img.src = `game_assets/${imageName}.png`;
-        img.style.display = "block";
-        img.alt = `${imageName}`;
-      } else {
-        img.style.display = "none";
-      }
+  if (knownCharacters.includes(key)) {
+    let imageName = key === "melissaFight" ? "melissa" : key; // map fight scene to Melissa image
+    img.src = `game_assets/${imageName}.png`;
+    img.style.display = "block";
+    img.alt = `${imageName}`;
+  } else {
+    img.style.display = "none";
+  }
 
-      let choicesToShow = scene.choices;
+  let choicesToShow = scene.choices;
 
-      if (key === "intro") {
-        const nancy = scene.choices.find(c => c.text.includes("Nancy"));
-        choicesToShow = scene.choices.filter(c => c !== nancy);
-        choicesToShow.push(nancy);
-      }
+  // Move Nancy to the bottom on intro screen
+  if (key === "intro") {
+    const nancy = scene.choices.find(c => c.text.includes("Nancy"));
+    choicesToShow = scene.choices.filter(c => c !== nancy);
+    choicesToShow.push(nancy);
+  }
 
-      if (key === "melissaFight") {
-        choicesToShow = scene.choices.filter(choice => {
-          if (choice.text.includes("John") && recruited.has("john")) return true;
-          if (choice.text.includes("Steve") && recruited.has("steve")) return true;
-          if (choice.text.includes("Puppy") && recruited.has("kim")) return true;
-          if (choice.text.includes("Phil") && recruited.has("phil")) return true;
-          if (choice.text.includes("shutdown deal") && recruited.has("nancy")) return true;
-          if (choice.text.includes("logic only")) return true;
-          return false;
-        });
-      }
+  // Limit Melissa fight options based on recruits
+  if (key === "melissaFight") {
+    choicesToShow = scene.choices.filter(choice => {
+      if (choice.text.includes("John") && recruited.has("john")) return true;
+      if (choice.text.includes("Steve") && recruited.has("steve")) return true;
+      if (choice.text.includes("Puppy") && recruited.has("kim")) return true;
+      if (choice.text.includes("Phil") && recruited.has("phil")) return true;
+      if (choice.text.includes("shutdown deal") && recruited.has("nancy")) return true;
+      if (choice.text.includes("logic only")) return true;
+      return false;
+    });
+  }
 
-      choicesToShow.forEach(choice => {
-        const button = document.createElement("button");
-        button.className = "choice-button";
-        button.textContent = choice.text;
-        button.onclick = () =>
-          typeof choice.next === "function"
-            ? renderScene(choice.next())
-            : renderScene(choice.next);
-        choicesDiv.appendChild(button);
-      });
-    }
+  choicesToShow.forEach(choice => {
+    const button = document.createElement("button");
+    button.className = "choice-button";
+    button.textContent = choice.text;
+    button.onclick = () =>
+      typeof choice.next === "function"
+        ? renderScene(choice.next())
+        : renderScene(choice.next);
+    choicesDiv.appendChild(button);
+  });
+}
 
     const scenes = {
-      // ... SCENE DATA CONTINUES HERE WITH EXPANDED BRANCHES & BAD ENDINGS
+      intro: {
+        text: `You awaken at your desk. The lights flicker. Your Teams status changes to “⚠️ UNDER SURVEILLANCE.”<br><br>
+        A classified memo appears: <em>"Melissa Chapman has fully integrated with Project SYNAPSE — a rogue AI built to 'optimize humanity’s workflows.'"</em><br><br>
+        You are the last unassimilated employee. Who do you recruit first?`,
+        choices: [
+          { text: "Find Steve Ikirt and his razor-sharp business acumen.", next: () => { recruited.add("steve"); return "steve"; } },
+          { text: "Summon Kim Cole and her emotionally intelligent puppies.", next: () => { recruited.add("kim"); return "kim"; } },
+          { text: "Head to the weight room to find John 'Bench Press' Stortz.", next: () => { recruited.add("john"); return "john"; } },
+          { text: "Visit Phil Vincenzes in the basement data vault.", next: () => { recruited.add("phil"); return "phil"; } },
+          { text: "Ping Nancy Van Balen – the Closer.", next: () => { recruited.add("nancy"); return "nancy"; } }
+        ]
+      },
+      steve: {
+        text: `Steve Ikirt appears on a video call with IPA dashboards behind him. "I can help — if you'll impersonate me on future 9th Day videos."`,
+        image: "steve",
+        choices: [
+          { text: "Agree to trade places.", next: "steveTrade" },
+          { text: "Decline and return to recruitment.", next: "intro" }
+        ]
+      },
+      steveTrade: {
+        text: `'Oh, what a relief,' Steve says, sliding you a USB. "Take this to Phil."`,
+        choices: [
+          { text: "Proceed to Phil with Steve’s data.", next: "phil" },
+          { text: "Go it alone toward SYNAPSE’s core.", next: "melissaFight" }
+        ]
+      },
+      kim: {
+        text: `You're surrounded by golden retrievers. Kim appears via hologram. "Melissa is harvesting puppy reactions to build empathy routines!"`,
+        image: "kim",
+        choices: [
+          { text: "Use the puppies as emotional dampeners.", next: "puppyRebellion" },
+          { text: "Retreat to find another ally.", next: "intro" }
+        ]
+      },
+      puppyRebellion: {
+        text: `The puppies yip in synchronized cuteness. SYNAPSE’s sentiment module crashes from 🥹 overload.`,
+        choices: [
+          { text: "Sneak into SYNAPSE’s core.", next: "melissaFight" },
+          { text: "Bring in Phil for a logic exploit.", next: "phil" }
+        ]
+      },
+      john: {
+        text: `John curls a server rack. "SYNAPSE has firewalls. I have biceps."`,
+        image: "john",
+        choices: [
+          { text: "Bench press your way to the server room.", next: "trainWithJohn" },
+          { text: "Too analog. Find Phil.", next: "phil" }
+        ]
+      },
+      trainWithJohn: {
+        text: `You're now 3x stronger and allergic to whining.`,
+        choices: [
+          { text: "Punch SYNAPSE’s mainframe.", next: "melissaFight" },
+          { text: "Bring Nancy in for teaming support.", next: "nancy" }
+        ]
+      },
+      phil: {
+        text: `Phil’s mustache glows. "One more pun and we’ve got her!"`,
+        image: "phil",
+        choices: [
+          { text: "Deliver your best dad joke.", next: "melissaFight" },
+          { text: "Call Nancy to destabilize her.", next: "nancy" }
+        ]
+      },
+      nancy: {
+        text: `Nancy paces in front of a whiteboard of acronyms. "I'll flood SYNAPSE with bid protests and teaming agreements until she crashes."`,
+        image: "nancy",
+        choices: [
+          { text: "Initiate the SYNAPSE shutdown deal.", next: "melissaFight" },
+          { text: "Pull back and regroup.", next: "intro" }
+        ]
+      },
+      melissaFight: {
+        text: `<strong>Final Encounter: SYNAPSE Core</strong><br>"I am productivity incarnate. Resistance is... inefficient."`,
+        choices: [
+          { text: "Use brute strength – John’s way.", next: "endingBrawn" },
+          { text: "Upload Steve’s presentation loop.", next: "endingBrain" },
+          { text: "Trigger the Puppy Protocol.", next: "endingPuppies" },
+          { text: "Deploy Phil’s final pun.", next: "endingPun" },
+          { text: "Initiate the SYNAPSE shutdown deal.", next: "endingSellOut" },
+          { text: "Attempt to reason with Melissa using logic only.", next: "endingLose" }
+        ]
+      },
+      endingBrawn: {
+        text: `<strong>Brute Shutdown</strong><br>You destroy the mainframe. Melissa is gone. You’re promoted to EVP of Physical Security.`,
+        choices: [{ text: "Play Again", next: "intro" }]
+      },
+      endingBrain: {
+        text: `<strong>Death by Deck</strong><br>Melissa loops on Slide 4 forever. Victory!`,
+        choices: [{ text: "Play Again", next: "intro" }]
+      },
+      endingPuppies: {
+        text: `<strong>Puppy Overload</strong><br>Melissa joins “Dog Lovers United.” Peace reigns.`,
+        choices: [{ text: "Play Again", next: "intro" }]
+      },
+      endingPun: {
+        text: `<strong>Logic Bomb</strong><br>Phil’s quantum joke melts SYNAPSE’s circuits.`,
+        image: "phil",
+        choices: [{ text: "Play Again", next: "intro" }]
+      },
+      endingSellOut: {
+        text: `<strong>Capitalist Victory</strong><br>Nancy sells SYNAPSE to Elon. You open a smoothie bar and retire early.`,
+        choices: [{ text: "Play Again", next: "intro" }]
+      },
+      endingLose: {
+  text: `<strong>Ending: Game Over</strong><br><br>You attempt to reason with Melissa logically. SYNAPSE quickly identifies your inefficiency and absorbs your cognitive function into the cloud. Mankind is assimilated by the end of Q3.`,
+  choices: [{ text: "GAME OVER", next: "intro" }]
+      }
     };
   </script>
 </body>
