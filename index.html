@@ -206,36 +206,38 @@
   const choicesDiv = document.getElementById("choices");
   choicesDiv.innerHTML = "";
 
+  let choicesToShow = scene.choices;
+
+  // Special handling for "intro" to move Nancy last
   if (key === "intro") {
-    // Find Nancy's choice
-    const nancyChoice = scene.choices.find(c => c.text.includes("Nancy"));
-    const otherChoices = scene.choices.filter(c => c !== nancyChoice);
+    const nancy = scene.choices.find(c => c.text.includes("Nancy"));
+    choicesToShow = scene.choices.filter(c => c !== nancy);
+    choicesToShow.push(nancy); // move Nancy to end
+  }
 
-    // Render other choices first
-    otherChoices.forEach(choice => {
-      const button = document.createElement("button");
-      button.className = "choice-button";
-      button.textContent = choice.text;
-      button.onclick = () => renderScene(choice.next());
-      choicesDiv.appendChild(button);
-    });
-
-    // Line break and render Nancy's choice
-    choicesDiv.appendChild(document.createElement("br"));
-    const nancyButton = document.createElement("button");
-    nancyButton.className = "choice-button";
-    nancyButton.textContent = nancyChoice.text;
-    nancyButton.onclick = () => renderScene(nancyChoice.next());
-    choicesDiv.appendChild(nancyButton);
-  } else {
-    scene.choices.forEach(choice => {
-      const button = document.createElement("button");
-      button.className = "choice-button";
-      button.textContent = choice.text;
-      button.onclick = () => renderScene(choice.next);
-      choicesDiv.appendChild(button);
+  // Filter final battle options based on who was recruited
+  if (key === "melissaFight") {
+    choicesToShow = scene.choices.filter(choice => {
+      if (choice.text.includes("John") && recruited.has("john")) return true;
+      if (choice.text.includes("Steve") && recruited.has("steve")) return true;
+      if (choice.text.includes("Puppy") && recruited.has("kim")) return true;
+      if (choice.text.includes("Phil") && recruited.has("phil")) return true;
+      if (choice.text.includes("shutdown deal") && recruited.has("nancy")) return true;
+      if (choice.text.includes("logic only")) return true; // allow losing ending always
+      return false;
     });
   }
+
+  choicesToShow.forEach(choice => {
+    const button = document.createElement("button");
+    button.className = "choice-button";
+    button.textContent = choice.text;
+    button.onclick = () =>
+      typeof choice.next === "function"
+        ? renderScene(choice.next())
+        : renderScene(choice.next);
+    choicesDiv.appendChild(button);
+  });
 }
   </script>
 </body>
