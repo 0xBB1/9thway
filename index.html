@@ -83,7 +83,7 @@
     <p><em>Stop the rise of SYNAPSE. Save humanity. Or at least, your job.</em></p>
     <button class="choice-button" onclick="startGame()">Start Mission</button>
   </div>
-
+<img id="character-image" src="" alt="" style="max-width: 100%; display: none; margin-top: 20px; border-radius: 10px; box-shadow: 0 0 10px #00ffcc;" />
   <div id="game-container">
     <div id="story-text"></div>
     <div id="scene-image"></div>
@@ -115,47 +115,58 @@
       recruited.clear();
     }
 
-    function renderScene(key) {
-      const scene = scenes[key];
-      document.getElementById("story-text").innerHTML = scene.text;
+function renderScene(key) {
+  const scene = scenes[key];
+  document.getElementById("story-text").innerHTML = scene.text;
 
-      const imgDiv = document.getElementById("scene-image");
-      imgDiv.innerHTML = scene.image ? `<img src="game_assets/${scene.image}.png" alt="${scene.image}" class="scene-image">` : "";
+  const choicesDiv = document.getElementById("choices");
+  choicesDiv.innerHTML = "";
 
-      const choicesDiv = document.getElementById("choices");
-      choicesDiv.innerHTML = "";
+  const img = document.getElementById("character-image");
+  const knownCharacters = ["steve", "kim", "john", "phil", "nancy", "melissaFight", "endingPun"];
 
-      let choicesToShow = scene.choices;
+  if (knownCharacters.includes(key)) {
+    let imageName = key === "melissaFight" ? "melissa" : key; // map fight scene to Melissa image
+    img.src = `game_assets/${imageName}.png`;
+    img.style.display = "block";
+    img.alt = `${imageName}`;
+  } else {
+    img.style.display = "none";
+  }
 
-      if (key === "intro") {
-        const nancy = scene.choices.find(c => c.text.includes("Nancy"));
-        choicesToShow = scene.choices.filter(c => c !== nancy);
-        choicesToShow.push(nancy);
-      }
+  let choicesToShow = scene.choices;
 
-      if (key === "melissaFight") {
-        choicesToShow = scene.choices.filter(choice => {
-          if (choice.text.includes("John") && recruited.has("john")) return true;
-          if (choice.text.includes("Steve") && recruited.has("steve")) return true;
-          if (choice.text.includes("Puppy") && recruited.has("kim")) return true;
-          if (choice.text.includes("Phil") && recruited.has("phil")) return true;
-          if (choice.text.includes("shutdown deal") && recruited.has("nancy")) return true;
-          if (choice.text.includes("logic only")) return true;
-          return false;
-        });
-      }
+  // Move Nancy to the bottom on intro screen
+  if (key === "intro") {
+    const nancy = scene.choices.find(c => c.text.includes("Nancy"));
+    choicesToShow = scene.choices.filter(c => c !== nancy);
+    choicesToShow.push(nancy);
+  }
 
-      choicesToShow.forEach(choice => {
-        const button = document.createElement("button");
-        button.className = "choice-button";
-        button.textContent = choice.text;
-        button.onclick = () =>
-          typeof choice.next === "function"
-            ? renderScene(choice.next())
-            : renderScene(choice.next);
-        choicesDiv.appendChild(button);
-      });
-    }
+  // Limit Melissa fight options based on recruits
+  if (key === "melissaFight") {
+    choicesToShow = scene.choices.filter(choice => {
+      if (choice.text.includes("John") && recruited.has("john")) return true;
+      if (choice.text.includes("Steve") && recruited.has("steve")) return true;
+      if (choice.text.includes("Puppy") && recruited.has("kim")) return true;
+      if (choice.text.includes("Phil") && recruited.has("phil")) return true;
+      if (choice.text.includes("shutdown deal") && recruited.has("nancy")) return true;
+      if (choice.text.includes("logic only")) return true;
+      return false;
+    });
+  }
+
+  choicesToShow.forEach(choice => {
+    const button = document.createElement("button");
+    button.className = "choice-button";
+    button.textContent = choice.text;
+    button.onclick = () =>
+      typeof choice.next === "function"
+        ? renderScene(choice.next())
+        : renderScene(choice.next);
+    choicesDiv.appendChild(button);
+  });
+}
 
     const scenes = {
       intro: {
