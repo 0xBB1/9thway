@@ -201,18 +201,42 @@
     }
 
     function renderScene(key) {
-      const scene = scenes[key];
-      document.getElementById("story-text").innerHTML = scene.text;
-      const choicesDiv = document.getElementById("choices");
-      choicesDiv.innerHTML = "";
-      scene.choices.forEach(choice => {
-        const button = document.createElement("button");
-        button.className = "choice-button";
-        button.textContent = choice.text;
-        button.onclick = () => renderScene(choice.next);
-        choicesDiv.appendChild(button);
-      });
-    }
+  const scene = scenes[key];
+  document.getElementById("story-text").innerHTML = scene.text;
+  const choicesDiv = document.getElementById("choices");
+  choicesDiv.innerHTML = "";
+
+  if (key === "intro") {
+    // Find Nancy's choice
+    const nancyChoice = scene.choices.find(c => c.text.includes("Nancy"));
+    const otherChoices = scene.choices.filter(c => c !== nancyChoice);
+
+    // Render other choices first
+    otherChoices.forEach(choice => {
+      const button = document.createElement("button");
+      button.className = "choice-button";
+      button.textContent = choice.text;
+      button.onclick = () => renderScene(choice.next());
+      choicesDiv.appendChild(button);
+    });
+
+    // Line break and render Nancy's choice
+    choicesDiv.appendChild(document.createElement("br"));
+    const nancyButton = document.createElement("button");
+    nancyButton.className = "choice-button";
+    nancyButton.textContent = nancyChoice.text;
+    nancyButton.onclick = () => renderScene(nancyChoice.next());
+    choicesDiv.appendChild(nancyButton);
+  } else {
+    scene.choices.forEach(choice => {
+      const button = document.createElement("button");
+      button.className = "choice-button";
+      button.textContent = choice.text;
+      button.onclick = () => renderScene(choice.next);
+      choicesDiv.appendChild(button);
+    });
+  }
+}
   </script>
 </body>
 </html>
