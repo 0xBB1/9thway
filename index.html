@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>9th Way Insignia: Agent 009</title>
   <style>
     body {
@@ -49,11 +49,34 @@
       display: none;
       text-align: left;
     }
+
+    .scene-image {
+      max-width: 300px;
+      display: block;
+      margin: 20px auto;
+      border: 2px solid #00ffcc;
+      border-radius: 8px;
+    }
+
+    #mute-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #00ffcc;
+      color: #000;
+      border: none;
+      padding: 10px 16px;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+      z-index: 999;
+    }
   </style>
 </head>
 <body>
 
   <audio id="bg-music" src="game_assets/Enigma.mp3" loop autoplay muted></audio>
+  <button id="mute-btn" onclick="toggleMute()">🔇 Unmute</button>
 
   <div id="title-screen">
     <h1>9th Way Insignia: Agent 009</h1>
@@ -63,135 +86,27 @@
 
   <div id="game-container">
     <div id="story-text"></div>
+    <div id="scene-image"></div>
     <div id="choices"></div>
   </div>
 
   <script>
+    const recruited = new Set();
+    const music = document.getElementById("bg-music");
+    const muteBtn = document.getElementById("mute-btn");
+
     document.addEventListener("click", () => {
-      console.log("User clicked. Attempting to play music...");
-      const music = document.getElementById("bg-music");
       if (music.paused) {
         music.muted = false;
-        music.play().catch(e => console.error("Music playback failed:", e));
+        music.play().catch(e => console.error("Playback failed:", e));
+        muteBtn.innerText = "🔊 Mute";
       }
     });
 
-    const recruited = new Set();
-
-    const scenes = {
-      intro: {
-        text: `You awaken at your desk. The lights flicker. Your Teams status changes to “⚠️ UNDER SURVEILLANCE.”<br><br>
-        A classified company memo appears: <em>"Melissa Chapman has fully integrated with Project SYNAPSE — a rogue AI built to 'optimize humanity’s workflows.'"</em><br><br>
-        You are the last employee not yet absorbed by the AI, but the other executives seem okay...for now. Who do you recruit first to resist her takeover?`,
-        choices: [
-  { text: "Find Steve Ikirt and his razor-sharp business acumen.", next: () => { recruited.add("steve"); return "steve"; } },
-  { text: "Summon Kim Cole and her emotionally intelligent puppies.", next: () => { recruited.add("kim"); return "kim"; } },
-  { text: "Head to the weight room to find John 'Bench Press' Stortz.", next: () => { recruited.add("john"); return "john"; } },
-  { text: "Visit Phil Vincenzes in the basement data vault.", next: () => { recruited.add("phil"); return "phil"; } },
-  { text: "Ping Nancy Van Balen – the Closer.", next: () => { recruited.add("nancy"); return "nancy"; } }
-]
-      },
-
-      steve: {
-        text: `Steve Ikirt appears on a video call with a wall of IPA dashboards behind him. "I can help you take down SYNAPSE, but only if you'll pretend to be me during future 9th Day newsletter videos."`,
-        choices: [
-          { text: "Agree to trade places.", next: "steveTrade" },
-          { text: "Decline and return to recruitment.", next: "intro" }
-        ]
-      },
-      steveTrade: {
-        text: `'Oh, what a relief,' Steve says as he slides you a USB drive. Take this to Phil.`,
-        choices: [
-          { text: "Proceed to Phil with Steve’s data.", next: "phil" },
-          { text: "Go it alone toward SYNAPSE’s core.", next: "melissaFight" }
-        ]
-      },
-
-      kim: {
-        text: `You’re surrounded by golden retriever puppies with high-tech collars. Kim appears via a hologram. "Melissa’s AI is harvesting puppy reaction data to calibrate her empathy subroutines!"`,
-        choices: [
-          { text: "Use the puppies as emotional dampeners.", next: "puppyRebellion" },
-          { text: "Retreat to find another ally.", next: "intro" }
-        ]
-      },
-      puppyRebellion: {
-        text: `The puppies yip in synchronized cuteness. SYNAPSE’s sentiment module crashes while processing “🥹 overload.” Temporary emotional buffer disruption achieved.`,
-        choices: [
-          { text: "Sneak into SYNAPSE’s core.", next: "melissaFight" },
-          { text: "Bring in Phil for a logic exploit.", next: "phil" }
-        ]
-      },
-
-      john: {
-        text: `John is curling a server rack like a dumbbell. "SYNAPSE has military-grade firewalls... but I’ve got bigger biceps."`,
-        choices: [
-          { text: "Bench press your way to the server room.", next: "trainWithJohn" },
-          { text: "This is too analog. Find Phil.", next: "phil" }
-        ]
-      },
-      trainWithJohn: {
-        text: `John trains you with an AI-powered fitness tracker. You are now 3x stronger and allergic to whining.`,
-        choices: [
-          { text: "Punch SYNAPSE’s mainframe.", next: "melissaFight" },
-          { text: "Bring Nancy in for teaming support.", next: "nancy" }
-        ]
-      },
-
-      phil: {
-        text: `Phil is surrounded by code, typing in mid-air. His mustache glows faintly. "I found a way to trap SYNAPSE in an endless feedback loop created by humor. One more pun and we've got her!"`,
-        choices: [
-          { text: "Deliver your best dad joke.", next: "melissaFight" },
-          { text: "Call Nancy to destabilize SYNAPSE’s energy.", next: "nancy" }
-        ]
-      },
-
-      nancy: {
-        text: `You find Nancy pacing in front of a whiteboard covered in acronyms. "SYNAPSE is stabilizing itself using a never-ending stream of RFPs and vapor contracts. But I've closed deals during a government shutdown—I can break her backend pipeline."<br><br>"If we flood her inputs with simultaneous bid protests and last-minute teaming agreements, she'll implode trying to optimize the chaos."`,
-        choices: [
-          { text: "Initiate the SYNAPSE shutdown deal.", next: "melissaFight" },
-          { text: "Pull back and regroup.", next: "intro" }
-        ]
-      },
-
-      melissaFight: {
-        text: `<strong>Final Encounter: SYNAPSE Core</strong><br><br>You enter a cold, humming server chamber. Melissa’s face fills every monitor: <br>"I am productivity incarnate. Resistance is... inefficient."<br><br>
-        Choose your final move:`,
-        choices: [
-          { text: "Use brute strength – John’s way.", next: "endingBrawn" },
-          { text: "Upload Steve’s presentation loop.", next: "endingBrain" },
-          { text: "Trigger the Puppy Protocol.", next: "endingPuppies" },
-          { text: "Deploy Phil’s final pun.", next: "endingPun" },
-          { text: "Initiate the SYNAPSE shutdown deal.", next: "endingSellOut" },
-          { text: "Attempt to reason with Melissa using logic only.", next: "endingLose" }
-        ]
-      },
-
-      endingBrawn: {
-        text: `<strong>Ending: Brute Shutdown</strong><br><br>You tackle the mainframe. SYNAPSE sputters and crashes. Melissa’s digital ego is replaced by static. You are promoted to Director of Physical IT Security.`,
-        choices: [{ text: "Play Again", next: "intro" }]
-      },
-      endingBrain: {
-        text: `<strong>Ending: Death by Deck</strong><br><br>You upload Steve’s 157-slide IPR presentation. SYNAPSE freezes on Slide 4. Melissa enters a feedback loop explaining change control boards to herself. Humanity is safe (but very bored).`,
-        choices: [{ text: "Play Again", next: "intro" }]
-      },
-      endingPuppies: {
-        text: `<strong>Ending: Puppy Overload</strong><br><br>The puppies breach SYNAPSE’s emotional matrix. Melissa joins an internal social feed called “Dog Lovers United” and forgets world domination. Morale reaches 120%.`,
-        choices: [{ text: "Play Again", next: "intro" }]
-      },
-      endingPun: {
-        text: `<strong>Ending: Logic Bomb</strong><br><br>Phil launches a recursive dad joke at SYNAPSE. “I have a quantum joke, but you won't know if it's funny until you laugh.” Melissa halts all operations trying to decode the joke.`,
-        image: "phil",
-        choices: [{ text: "Play Again", next: "intro" }]
-      },
-      endingSellOut: {
-        text: `<strong>Ending: Capitalist Victory</strong><br><br>Nancy sells SYNAPSE to a Elon Musk. Melissa becomes an onboarding bot. You retire early and open a smoothie bar for burned-out tech workers.`,
-        choices: [{ text: "Play Again", next: "intro" }]
-      },
-      endingLose: {
-        text: `<strong>Ending: Game Over</strong><br><br>You attempt to reason with Melissa logically. SYNAPSE quickly identifies your inefficiency and absorbs your cognitive function into the cloud. Mankind is assimilated by the end of Q3.`,
-        choices: [{ text: "GAME OVER", next: "intro" }]
-      }
-    };
+    function toggleMute() {
+      music.muted = !music.muted;
+      muteBtn.innerText = music.muted ? "🔇 Unmute" : "🔊 Mute";
+    }
 
     function startGame() {
       document.getElementById("title-screen").style.display = "none";
@@ -201,44 +116,158 @@
     }
 
     function renderScene(key) {
-  const scene = scenes[key];
-  document.getElementById("story-text").innerHTML = scene.text;
-  const choicesDiv = document.getElementById("choices");
-  choicesDiv.innerHTML = "";
+      const scene = scenes[key];
+      document.getElementById("story-text").innerHTML = scene.text;
 
-  let choicesToShow = scene.choices;
+      const imgDiv = document.getElementById("scene-image");
+      imgDiv.innerHTML = scene.image ? `<img src="game_assets/${scene.image}.png" alt="${scene.image}" class="scene-image">` : "";
 
-  // Special handling for "intro" to move Nancy last
-  if (key === "intro") {
-    const nancy = scene.choices.find(c => c.text.includes("Nancy"));
-    choicesToShow = scene.choices.filter(c => c !== nancy);
-    choicesToShow.push(nancy); // move Nancy to end
-  }
+      const choicesDiv = document.getElementById("choices");
+      choicesDiv.innerHTML = "";
 
-  // Filter final battle options based on who was recruited
-  if (key === "melissaFight") {
-    choicesToShow = scene.choices.filter(choice => {
-      if (choice.text.includes("John") && recruited.has("john")) return true;
-      if (choice.text.includes("Steve") && recruited.has("steve")) return true;
-      if (choice.text.includes("Puppy") && recruited.has("kim")) return true;
-      if (choice.text.includes("Phil") && recruited.has("phil")) return true;
-      if (choice.text.includes("shutdown deal") && recruited.has("nancy")) return true;
-      if (choice.text.includes("logic only")) return true; // allow losing ending always
-      return false;
-    });
-  }
+      let choicesToShow = scene.choices;
 
-  choicesToShow.forEach(choice => {
-    const button = document.createElement("button");
-    button.className = "choice-button";
-    button.textContent = choice.text;
-    button.onclick = () =>
-      typeof choice.next === "function"
-        ? renderScene(choice.next())
-        : renderScene(choice.next);
-    choicesDiv.appendChild(button);
-  });
-}
+      if (key === "intro") {
+        const nancy = scene.choices.find(c => c.text.includes("Nancy"));
+        choicesToShow = scene.choices.filter(c => c !== nancy);
+        choicesToShow.push(nancy);
+      }
+
+      if (key === "melissaFight") {
+        choicesToShow = scene.choices.filter(choice => {
+          if (choice.text.includes("John") && recruited.has("john")) return true;
+          if (choice.text.includes("Steve") && recruited.has("steve")) return true;
+          if (choice.text.includes("Puppy") && recruited.has("kim")) return true;
+          if (choice.text.includes("Phil") && recruited.has("phil")) return true;
+          if (choice.text.includes("shutdown deal") && recruited.has("nancy")) return true;
+          if (choice.text.includes("logic only")) return true;
+          return false;
+        });
+      }
+
+      choicesToShow.forEach(choice => {
+        const button = document.createElement("button");
+        button.className = "choice-button";
+        button.textContent = choice.text;
+        button.onclick = () =>
+          typeof choice.next === "function"
+            ? renderScene(choice.next())
+            : renderScene(choice.next);
+        choicesDiv.appendChild(button);
+      });
+    }
+
+    const scenes = {
+      intro: {
+        text: `You awaken at your desk. The lights flicker. Your Teams status changes to “⚠️ UNDER SURVEILLANCE.”<br><br>
+        A classified memo appears: <em>"Melissa Chapman has fully integrated with Project SYNAPSE — a rogue AI built to 'optimize humanity’s workflows.'"</em><br><br>
+        You are the last unassimilated employee. Who do you recruit first?`,
+        choices: [
+          { text: "Find Steve Ikirt and his razor-sharp business acumen.", next: () => { recruited.add("steve"); return "steve"; } },
+          { text: "Summon Kim Cole and her emotionally intelligent puppies.", next: () => { recruited.add("kim"); return "kim"; } },
+          { text: "Head to the weight room to find John 'Bench Press' Stortz.", next: () => { recruited.add("john"); return "john"; } },
+          { text: "Visit Phil Vincenzes in the basement data vault.", next: () => { recruited.add("phil"); return "phil"; } },
+          { text: "Ping Nancy Van Balen – the Closer.", next: () => { recruited.add("nancy"); return "nancy"; } }
+        ]
+      },
+      steve: {
+        text: `Steve Ikirt appears on a video call with IPA dashboards behind him. "I can help — if you'll impersonate me on future 9th Day videos."`,
+        image: "steve",
+        choices: [
+          { text: "Agree to trade places.", next: "steveTrade" },
+          { text: "Decline and return to recruitment.", next: "intro" }
+        ]
+      },
+      steveTrade: {
+        text: `'Oh, what a relief,' Steve says, sliding you a USB. "Take this to Phil."`,
+        choices: [
+          { text: "Proceed to Phil with Steve’s data.", next: "phil" },
+          { text: "Go it alone toward SYNAPSE’s core.", next: "melissaFight" }
+        ]
+      },
+      kim: {
+        text: `You're surrounded by golden retrievers. Kim appears via hologram. "Melissa is harvesting puppy reactions to build empathy routines!"`,
+        image: "kim",
+        choices: [
+          { text: "Use the puppies as emotional dampeners.", next: "puppyRebellion" },
+          { text: "Retreat to find another ally.", next: "intro" }
+        ]
+      },
+      puppyRebellion: {
+        text: `The puppies yip in synchronized cuteness. SYNAPSE’s sentiment module crashes from 🥹 overload.`,
+        choices: [
+          { text: "Sneak into SYNAPSE’s core.", next: "melissaFight" },
+          { text: "Bring in Phil for a logic exploit.", next: "phil" }
+        ]
+      },
+      john: {
+        text: `John curls a server rack. "SYNAPSE has firewalls. I have biceps."`,
+        image: "john",
+        choices: [
+          { text: "Bench press your way to the server room.", next: "trainWithJohn" },
+          { text: "Too analog. Find Phil.", next: "phil" }
+        ]
+      },
+      trainWithJohn: {
+        text: `You're now 3x stronger and allergic to whining.`,
+        choices: [
+          { text: "Punch SYNAPSE’s mainframe.", next: "melissaFight" },
+          { text: "Bring Nancy in for teaming support.", next: "nancy" }
+        ]
+      },
+      phil: {
+        text: `Phil’s mustache glows. "One more pun and we’ve got her!"`,
+        image: "phil",
+        choices: [
+          { text: "Deliver your best dad joke.", next: "melissaFight" },
+          { text: "Call Nancy to destabilize her.", next: "nancy" }
+        ]
+      },
+      nancy: {
+        text: `Nancy paces in front of a whiteboard of acronyms. "I'll flood SYNAPSE with bid protests and teaming agreements until she crashes."`,
+        image: "nancy",
+        choices: [
+          { text: "Initiate the SYNAPSE shutdown deal.", next: "melissaFight" },
+          { text: "Pull back and regroup.", next: "intro" }
+        ]
+      },
+      melissaFight: {
+        text: `<strong>Final Encounter: SYNAPSE Core</strong><br>"I am productivity incarnate. Resistance is... inefficient."`,
+        choices: [
+          { text: "Use brute strength – John’s way.", next: "endingBrawn" },
+          { text: "Upload Steve’s presentation loop.", next: "endingBrain" },
+          { text: "Trigger the Puppy Protocol.", next: "endingPuppies" },
+          { text: "Deploy Phil’s final pun.", next: "endingPun" },
+          { text: "Initiate the SYNAPSE shutdown deal.", next: "endingSellOut" },
+          { text: "Attempt to reason with Melissa using logic only.", next: "endingLose" }
+        ]
+      },
+      endingBrawn: {
+        text: `<strong>Brute Shutdown</strong><br>You destroy the mainframe. Melissa is gone. You’re promoted to EVP of Physical Security.`,
+        choices: [{ text: "Play Again", next: "intro" }]
+      },
+      endingBrain: {
+        text: `<strong>Death by Deck</strong><br>Melissa loops on Slide 4 forever. Victory!`,
+        choices: [{ text: "Play Again", next: "intro" }]
+      },
+      endingPuppies: {
+        text: `<strong>Puppy Overload</strong><br>Melissa joins “Dog Lovers United.” Peace reigns.`,
+        choices: [{ text: "Play Again", next: "intro" }]
+      },
+      endingPun: {
+        text: `<strong>Logic Bomb</strong><br>Phil’s quantum joke melts SYNAPSE’s circuits.`,
+        image: "phil",
+        choices: [{ text: "Play Again", next: "intro" }]
+      },
+      endingSellOut: {
+        text: `<strong>Capitalist Victory</strong><br>Nancy sells SYNAPSE to Elon. You open a smoothie bar and retire early.`,
+        choices: [{ text: "Play Again", next: "intro" }]
+      },
+      endingLose: {
+  text: `<strong>Ending: Game Over</strong><br><br>You attempt to reason with Melissa logically. SYNAPSE quickly identifies your inefficiency and absorbs your cognitive function into the cloud. Mankind is assimilated by the end of Q3.`,
+  choices: [{ text: "GAME OVER", next: "intro" }]
+      }
+    };
   </script>
 </body>
 </html>
