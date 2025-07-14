@@ -83,13 +83,20 @@
     <p><em>Stop the rise of SYNAPSE. Save humanity. Or at least, your job.</em></p>
     <button class="choice-button" onclick="startGame()">Start Mission</button>
   </div>
-<img id="character-image" src="" alt="" style="max-width: 100%; display: none; margin-top: 20px; border-radius: 10px; box-shadow: 0 0 10px #00ffcc;" />
+<img id="scene-image" class="scene-image" src="" alt="" />
   <div id="game-container">
     <div id="story-text"></div>
     <div id="scene-image"></div>
     <div id="choices"></div>
   </div>
 
+  .scene-image {
+  max-width: 300px;
+  display: block;
+  margin: 20px auto;
+  border: 2px solid #00ffcc;
+  border-radius: 8px;
+}
   <script>
     const recruited = new Set();
     const music = document.getElementById("bg-music");
